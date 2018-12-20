@@ -1,0 +1,70 @@
+﻿@model Turbo_Wheels.Models.ViewModels.Logged_In
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/jqueryui")
+    <style>
+        .vertical-center {
+            min-height: 100%;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        $('input:submit').click(function (e) {
+            if (!$.validate())
+                e.preventDefault();
+        });
+    </script>
+
+    <div class="vertical-center">
+        <div class="container">
+            <div class="h1" style="text-align:center; padding-bottom: 60px">
+                TURBO WHEELS &reg;
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-6">
+                        <img class="img-fluid" src="~/images/img-01.png">
+                    </div>
+                    <div class="col-6">
+                        @using (Html.BeginForm())
+                        {
+                            <div class="h3">
+                                User Login
+                            </div>
+                            <div style="padding-top: 15px">
+                                <input type="text" name="username" id="username" required />
+                            </div>
+                            <div style="padding-top: 15px">
+                                <input type="password" name="password" id="password" required />
+                            </div>
+                            <div style="padding-top:30px; padding-bottom:30px">
+                                <input type="submit" value="Log In" id="button" style="padding-left:35px; padding-right:35px" class="btn btn-success" />
+                            </div>
+                        }
+                            <br />
+                            New to TurboWheels?
+                                    @Html.ActionLink("Create your Account", "Create", "Users")
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,143 @@
+﻿@model IEnumerable<Turbo_Wheels.Models.Vehicle>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="container">
+
+    <h2>Vehicles</h2>
+
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <table class="table">
+        @if (Model.Count() != 0)
+        {
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.type)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.brand)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.model)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.fuel)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.transmission)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.price_per_day)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.doors)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.seats)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.has_airbag)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.has_ABS)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.has_ESP)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.has_GPS)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.imageURL)
+                </th>
+                <th></th>
+            </tr>
+        }
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.type)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.brand)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.model)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.fuel)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.transmission)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.price_per_day)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.doors)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.seats)
+                </td>
+                <td>
+                    @{ if (item.has_airbag)
+                        {
+                            <span>Yes</span>
+                        }
+                        else
+                        {
+                            <span>No</span>
+                        }
+                    }
+                </td>
+                <td>
+                    @{ if (item.has_ABS)
+                        {
+                            <span>Yes</span>
+                        }
+                        else
+                        {
+                            <span>No</span>
+                        }
+                    }
+                </td>
+                <td>
+                    @{ if (item.has_ESP)
+                        {
+                            <span>Yes</span>
+                        }
+                        else
+                        {
+                            <span>No</span>
+                        }
+                    }
+                </td>
+                <td>
+                    @{ if (item.has_GPS)
+                    {
+                        <span>Yes</span>
+                    }
+                    else
+                    {
+                        <span>No</span>
+                    }
+                }
+                </td>
+                <td>
+                    <input type="image" src="@Url.Content("~/images/vehicle_images/"+item.imageURL)" width="150" />
+                </td>
+                <td valign="middle">
+                    @Html.ActionLink("Details", "Details", new { id = item.vehicleID }) 
+                    @Html.ActionLink("Delete", "Delete", new { id = item.vehicleID })
+                </td>
+            </tr>
+        }
+
+    </table>
+    <hr style="border-width: 5px" />
+</div>

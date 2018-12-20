@@ -1,0 +1,155 @@
+﻿@model Turbo_Wheels.Models.Vehicle
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<div class="container">
+    <h2>Details</h2>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.type)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.type)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.brand)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.brand)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.model)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.model)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fuel)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fuel)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.transmission)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.transmission)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.price_per_day)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.price_per_day)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.doors)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.doors)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.seats)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.seats)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.has_airbag)
+        </dt>
+
+        <dd>
+            @{ if (Model.has_airbag)
+                {
+                    <span>Yes</span>
+                }
+                else
+                {
+                    <span>No</span>
+                }
+            }
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.has_ABS)
+        </dt>
+
+        <dd>
+            @{ if (Model.has_ABS)
+                {
+                    <span>Yes</span>
+                }
+                else
+                {
+                    <span>No</span>
+                }
+            }
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.has_ESP)
+        </dt>
+
+        <dd>
+            @{ if (Model.has_ESP)
+                {
+                    <span>Yes</span>
+                }
+                else
+                {
+                    <span>No</span>
+                }
+            }
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.has_GPS)
+        </dt>
+
+        <dd>
+            @{ if (Model.has_GPS)
+                {
+                    <span>Yes</span>
+                }
+                else
+                {
+                    <span>No</span>
+                }
+            }
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.imageURL)
+        </dt>
+
+        <dd>
+            <img src="@Url.Content("~/images/vehicle_images/"+Model.imageURL)" width="450" />
+        </dd>
+
+    </dl>
+
+    <p>
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+
+    <hr style="border-width: 5px" />
+
+</div>

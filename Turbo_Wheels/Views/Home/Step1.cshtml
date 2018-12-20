@@ -1,0 +1,136 @@
+﻿@model List<Turbo_Wheels.Models.Vehicle>
+
+@{
+    ViewBag.Title = "Step1";
+}
+
+<div class="container">
+    <h2>Choose vehicle</h2>
+
+    <table class="table">
+        @if (Model.Count() != 0)
+        {
+            <tr>
+                <th>
+                    Type
+                </th>
+                <th>
+                    Brand
+                </th>
+                <th>
+                    Model
+                </th>
+                <th>
+                    Fuel
+                </th>
+                <th>
+                    Transmission
+                </th>
+                <th>
+                    Price per day
+                </th>
+                <th>
+                    Doors
+                </th>
+                <th>
+                    Seats
+                </th>
+                <th>
+                    Airbag
+                </th>
+                <th>
+                    ABS
+                </th>
+                <th>
+                    ESP
+                </th>
+                <th>
+                    GPS
+                </th>
+                <th>
+                    Photo
+                </th>
+                <th></th>
+            </tr>
+        }
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.type)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.brand)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.model)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.fuel)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.transmission)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.price_per_day)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.doors)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.seats)
+                </td>
+                <td>
+                    @{ if (item.has_airbag)
+                        {
+                            <span>Yes</span>
+                        }
+                        else
+                        {
+                            <span>No</span>
+                        }
+                    }
+                </td>
+                <td>
+                    @{ if (item.has_ABS)
+                        {
+                            <span>Yes</span>
+                        }
+                        else
+                        {
+                            <span>No</span>
+                        }
+                    }
+                </td>
+                <td>
+                    @{ if (item.has_ESP)
+                        {
+                            <span>Yes</span>
+                        }
+                        else
+                        {
+                            <span>No</span>
+                        }
+                    }
+                </td>
+                <td>
+                    @{ if (item.has_GPS)
+                        {
+                            <span>Yes</span>
+                        }
+                        else
+                        {
+                            <span>No</span>
+                        }
+                    }
+                </td>
+                <td>
+                    <a href="~/Home/Step2/@item.vehicleID">
+                        <img src="@Url.Content("~/images/vehicle_images/"+item.imageURL)" width="150" />
+                    </a>
+                </td>
+            </tr>
+        }
+    </table>
+    <hr style="border-width: 5px" />
+</div>

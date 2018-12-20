@@ -1,0 +1,97 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+@model Turbo_Wheels.Models.ReservationVM1
+
+<link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-3.3.1.js"></script>
+<script src="~/Scripts/jquery-ui-1.12.1.js"></script>
+<script type="text/javascript" src="~/Scripts/datejs.js"></script>
+<script type="text/javascript" src="~/Scripts/Date.min.js"></script>
+<script>
+    var date = new Date()
+    var date1 = new Date();
+    $(function () {
+        $('#datepicker1').datepicker({
+            minDate: date,
+            dateFormat: 'dd.mm.yy',
+            onSelect: function () {
+                date1 = $(this).datepicker('getDate')
+                var date2 = date1.addDays(1)
+                $(function () {
+                    $('#datepicker2').datepicker({
+                        minDate: date2,
+                        dateFormat: 'dd.mm.yy',
+                        onSelect: function (dateText, inst) {
+                            $('#button').prop('disabled', false)
+                        }
+                    })
+                })
+            }
+        })
+    })
+</script>
+
+@using (Html.BeginForm())
+{
+
+    <div class="jumbotron" style="background-image: url(../../images/jumbotron.jpg); background-size: cover !important; background-position-x:center; background-position-y:bottom;">
+        
+        <div style="text-align:center !important; vertical-align:middle !important; padding-top:250px; padding-bottom:250px">
+
+            <div style="font-size: 30px !important">
+                Want to rent a car in Skopje? This is the right place to be! Just fill the form below!
+            </div>
+            <div style="padding-top: 20px">
+                <select style="height:29px; width:185px" id="pickupPlace"  name="pickupPlace">
+                    <option>Skopje Airport</option>
+                    <option>Karposh 2 Office</option>
+                    <option>Kisela Voda Office</option>
+                </select>
+                <input type="text" readonly value="@DateTime.Today.ToShortDateString()" id="datepicker1" name="pickupDate"/>
+                <select style="height:29px; width:185px" id="pickupTime" name="pickupTime">
+                    @for (int i = 0; i < 24; i++)
+                    {
+                        if (i == 10)
+                        {
+                            <option selected="selected">@i.ToString("00"):00</option>
+                        }
+                        else
+                        {
+                            <option>@i.ToString("00"):00</option>
+                        }
+                    }
+                </select>
+            </div>
+
+            <div style="padding-top: 20px">
+                <select style="height:29px; width:185px" id="returnPlace" name="returnPlace">
+                    <option>Skopje Airport</option>
+                    <option>Karposh 2 Office</option>
+                    <option>Kisela Voda Office</option>
+                </select>
+                <input readonly type="text" value="@DateTime.Today.AddDays(1).ToShortDateString()" id="datepicker2" name="returnDate" />
+                <select style="height:29px; width:185px" id="returnTime" name="returnTime">
+                    @for (int i = 0; i < 24; i++)
+                    {
+                        if (i == 15)
+                        {
+                            <option selected="selected">@i.ToString("00"):00</option>
+                        }
+                        else
+                        {
+                            <option>@i.ToString("00"):00</option>
+                        }
+                    }
+                </select>
+            </div>
+
+            <div style="padding-top:30px">
+                <input disabled type="submit" value="Search" id="button" style="padding-left:35px; padding-right:35px" class="btn btn-success" />
+            </div>
+
+        </div>
+
+    </div>
+}

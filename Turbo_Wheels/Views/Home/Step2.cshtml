@@ -1,0 +1,62 @@
+﻿@model Turbo_Wheels.Models.ViewModels.CreditCard
+
+@{
+    ViewBag.Title = "Step2";
+}
+
+<div class="container">
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <h2>Insert credit card information</h2>
+        <hr />
+        if ((bool)Session["expiredateIsValid"] == false)
+        {
+            <p style="font-size: 18px; color: red">Your credit card has expired!</p>
+        }
+        if ((bool)Session["monthInRange"] == false)
+        {
+            <p style="font-size: 18px; color: red">Invalid value for month!</p>
+        }
+        <div class="form-horizontal">
+            <div class="form-group">
+                @Html.LabelFor(model => model.CreditCardOwner, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.CreditCardOwner, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.CreditCardOwner, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.CreditCardNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.CreditCardNumber, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.CreditCardNumber, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <p>Credit card expiration date</p>
+                <div class="col-md-10">
+                    <input type="number" width="25" name="month" required /> / <input type="number" width="40" name="year" required />
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.CVC2_CVV2_Number, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.CVC2_CVV2_Number, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.CVC2_CVV2_Number, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Finish reservation" class="btn btn-default" />
+                </div>
+            </div>
+
+        </div>
+    }
+    <hr style="border-width: 5px" />
+</div>

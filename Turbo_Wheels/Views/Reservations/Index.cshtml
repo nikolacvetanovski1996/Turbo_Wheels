@@ -1,0 +1,98 @@
+﻿@model IEnumerable<Turbo_Wheels.Models.Reservation>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="container">
+
+    <h2>Reservations</h2>
+
+    <table class="table">
+        @if (Model.Count() != 0)
+        {
+            <tr>
+                <th>
+                    Name and surname
+                </th>
+                <th>
+                    Vehicle
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.pickupDateTime)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.pickupPlace)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.returnDateTime)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.returnPlace)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.totalPrice)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CreditCardOwner)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CreditCardNumber)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CreditCardExpireDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CVC2_CVV2_Number)
+                </th>
+                <th></th>
+            </tr>
+        }
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @(item.user.firstName + " " + item.user.lastName)
+                </td>
+                <td>
+                    <img src="@Url.Content("~/images/vehicle_images/"+item.vehicle.imageURL)" width="100" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.pickupDateTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.pickupPlace)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.returnDateTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.returnPlace)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.totalPrice)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreditCardOwner)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreditCardNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreditCardExpireDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CVC2_CVV2_Number)
+                </td>
+                <td>
+                    @Html.ActionLink("Details", "Details", new { id = item.ReservationID })
+                    @Html.ActionLink("Delete", "Delete", new { id = item.ReservationID })
+                </td>
+            </tr>
+        }
+
+    </table>
+
+    <hr style="border-width: 5px" />
+
+</div>

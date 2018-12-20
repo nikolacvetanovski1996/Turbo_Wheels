@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Turbo_Wheels", "Turbo_Wheels\Turbo_Wheels.csproj", "{9DEAC2F9-CA2C-4057-BF33-ACE8151C5C1B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Turbo_Wheels.Tests", "Turbo_Wheels.Tests\Turbo_Wheels.Tests.csproj", "{4EF3D7E1-C74E-4264-989C-E6E8698D9F48}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9DEAC2F9-CA2C-4057-BF33-ACE8151C5C1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9DEAC2F9-CA2C-4057-BF33-ACE8151C5C1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9DEAC2F9-CA2C-4057-BF33-ACE8151C5C1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9DEAC2F9-CA2C-4057-BF33-ACE8151C5C1B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4EF3D7E1-C74E-4264-989C-E6E8698D9F48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4EF3D7E1-C74E-4264-989C-E6E8698D9F48}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4EF3D7E1-C74E-4264-989C-E6E8698D9F48}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4EF3D7E1-C74E-4264-989C-E6E8698D9F48}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {328DC642-1BD5-4B69-BD95-2C9F8EB7D42B}
+	EndGlobalSection
+EndGlobal
