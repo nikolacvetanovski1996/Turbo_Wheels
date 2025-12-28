@@ -1,7 +1,7 @@
 ﻿using Microsoft.Owin;
 using Owin;
 
-[assembly: OwinStartupAttribute(typeof(Turbo_Wheels.Startup))]
+[assembly: OwinStartup(typeof(Turbo_Wheels.Startup))]
 namespace Turbo_Wheels
 {
     public partial class Startup

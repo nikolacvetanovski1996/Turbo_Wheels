@@ -1,143 +1,199 @@
 ﻿@model IEnumerable<Turbo_Wheels.Models.Vehicle>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Vehicle list";
 }
 
-<div class="container">
+<style>
+    .vehicles-table-wrapper {
+        max-width: 1200px;
+        margin: 1.5rem auto;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 6px 18px rgba(21, 24, 30, 0.08);
+        padding: 1rem 1.5rem;
+    }
 
-    <h2>Vehicles</h2>
+    .table-responsive-wrapper {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
 
-    <p>
-        @Html.ActionLink("Create New", "Create")
-    </p>
-    <table class="table">
-        @if (Model.Count() != 0)
+    table.vehicles-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0 0.5rem;
+        font-size: 0.95rem;
+    }
+
+    table.vehicles-table th,
+    table.vehicles-table td {
+        padding: 0.6rem 0.8rem;
+        vertical-align: middle;
+        background: #fefefe;
+        border-radius: 8px;
+    }
+
+    table.vehicles-table th {
+        background: transparent;
+        font-weight: 700;
+        color: #444;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    table.vehicles-table tbody tr:hover td {
+        background: #f8f9fa;
+    }
+
+    td {
+        max-width: 220px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .vehicle-image-thumb {
+        width: 120px;
+        height: 80px;
+        object-fit: cover;
+        border-radius: 8px;
+        display: block;
+        margin: auto;
+    }
+
+    .feature-icon {
+        font-size: 1.15rem;
+        width: 26px;
+        text-align: center;
+    }
+
+    .feature-icon.present {
+        color: #28a745;
+    }
+
+    .feature-icon.absent {
+        color: #6c757d;
+    }
+
+    .action-buttons {
+        white-space: nowrap;
+        display: flex;
+        gap: 0.5rem;
+    }
+
+    .action-link {
+        color: #555;
+        cursor: pointer;
+        display: inline-block;
+        font-size: 1.3rem;
+        transition: color 0.15s ease-in-out;
+    }
+
+    .action-link:hover {
+        color: #000;
+        text-decoration: none;
+    }
+
+    .action-link.edit:hover {
+        color: #007bff;
+    }
+
+    .action-link.delete {
+        color: #dc3545;
+    }
+
+    .create-btn-wrapper {
+        text-align: right;
+        margin-bottom: 1rem;
+    }
+
+    .th-actions {
+        width:110px;
+    }
+</style>
+
+<div class="vehicles-table-wrapper">
+    <h2 class="text-center mb-4">Vehicle list</h2>
+
+    <div class="create-btn-wrapper">
+        <a href="@Url.Action("Create", "Vehicles")" class="btn btn-primary">
+            <i class="fa fa-plus me-1"></i> Create New
+        </a>
+    </div>
+
+    <div class="table-responsive-wrapper">
+        @if (Model != null && Model.Any())
         {
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.type)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.brand)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.model)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.fuel)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.transmission)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.price_per_day)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.doors)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.seats)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.has_airbag)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.has_ABS)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.has_ESP)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.has_GPS)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.imageURL)
-                </th>
-                <th></th>
-            </tr>
-        }
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.type)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.brand)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.model)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.fuel)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.transmission)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.price_per_day)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.doors)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.seats)
-                </td>
-                <td>
-                    @{ if (item.has_airbag)
-                        {
-                            <span>Yes</span>
-                        }
-                        else
-                        {
-                            <span>No</span>
-                        }
-                    }
-                </td>
-                <td>
-                    @{ if (item.has_ABS)
-                        {
-                            <span>Yes</span>
-                        }
-                        else
-                        {
-                            <span>No</span>
-                        }
-                    }
-                </td>
-                <td>
-                    @{ if (item.has_ESP)
-                        {
-                            <span>Yes</span>
-                        }
-                        else
-                        {
-                            <span>No</span>
-                        }
-                    }
-                </td>
-                <td>
-                    @{ if (item.has_GPS)
+            <table class="vehicles-table">
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Type</th>
+                        <th>Brand</th>
+                        <th>Model</th>
+                        <th>Fuel</th>
+                        <th>Transmission</th>
+                        <th>Price/Day</th>
+                        <th>Doors</th>
+                        <th>Seats</th>
+                        <th title="Airbag">Airbag</th>
+                        <th title="ABS">ABS</th>
+                        <th title="ESP">ESP</th>
+                        <th title="GPS">GPS</th>
+                        <th class="th-actions">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var vehicle in Model)
                     {
-                        <span>Yes</span>
-                    }
-                    else
-                    {
-                        <span>No</span>
-                    }
-                }
-                </td>
-                <td>
-                    <input type="image" src="@Url.Content("~/images/vehicle_images/"+item.imageURL)" width="150" />
-                </td>
-                <td valign="middle">
-                    @Html.ActionLink("Details", "Details", new { id = item.vehicleID }) 
-                    @Html.ActionLink("Delete", "Delete", new { id = item.vehicleID })
-                </td>
-            </tr>
-        }
+                        <tr>
+                            <td>
+                                <img src="@Url.Content("~/images/vehicle_images/" + vehicle.ImageURL)" alt="Image of @vehicle.Brand @vehicle.Model" class="vehicle-image-thumb" />
+                            </td>
+                            <td>@vehicle.Type</td>
+                            <td>@vehicle.Brand</td>
+                            <td>@vehicle.Model</td>
+                            <td>@vehicle.Fuel</td>
+                            <td>@vehicle.Transmission</td>
+                            <td>@vehicle.PricePerDay</td>
+                            <td>@vehicle.Doors</td>
+                            <td>@vehicle.Seats</td>
 
-    </table>
-    <hr style="border-width: 5px" />
+                            <td class="feature-icon @(vehicle.HasAirbag ? "present" : "absent")" title="Airbag">
+                                <i class="fa @(vehicle.HasAirbag ? "fa-check" : "fa-times")"></i>
+                            </td>
+                            <td class="feature-icon @(vehicle.HasAbs ? "present" : "absent")" title="ABS">
+                                <i class="fa @(vehicle.HasAbs ? "fa-check" : "fa-times")"></i>
+                            </td>
+                            <td class="feature-icon @(vehicle.HasEsp ? "present" : "absent")" title="ESP">
+                                <i class="fa @(vehicle.HasEsp ? "fa-check" : "fa-times")"></i>
+                            </td>
+                            <td class="feature-icon @(vehicle.HasGps ? "present" : "absent")" title="GPS">
+                                <i class="fa @(vehicle.HasGps ? "fa-check" : "fa-times")"></i>
+                            </td>
+
+                            <td>
+                                <div class="action-buttons">
+                                    <a href="@Url.Action("Details", "Vehicles", new { id = vehicle.VehicleID })" class="action-link" title="Details" aria-label="View details of @vehicle.Brand @vehicle.Model">
+                                        <i class="fa fa-eye"></i>
+                                    </a>
+                                    <a href="@Url.Action("Edit", "Vehicles", new { id = vehicle.VehicleID })" class="action-link edit" title="Edit" aria-label="Edit @vehicle.Brand @vehicle.Model">
+                                        <i class="fa fa-edit"></i>
+                                    </a>
+                                    <a href="@Url.Action("Delete", "Vehicles", new { id = vehicle.VehicleID })" class="action-link delete" title="Delete" aria-label="Delete @vehicle.Brand @vehicle.Model">
+                                        <i class="fa fa-trash"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p>No vehicles found.</p>
+        }
+    </div>
 </div>

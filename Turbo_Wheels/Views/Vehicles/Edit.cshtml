@@ -1,0 +1,220 @@
+﻿@model Turbo_Wheels.Models.Vehicle
+
+@{
+    ViewBag.Title = "Edit vehicle";
+}
+
+<style>
+    .edit-vehicle-card {
+        max-width: 480px;
+        width: 100%;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 6px 18px rgba(21, 24, 30, 0.08);
+        padding: 1.5rem;
+    }
+
+    #imagePreview {
+        max-width: 100%;
+        max-height: 200px;
+        border-radius: 8px;
+    }
+</style>
+<script>
+    let submitAttempted = false;
+    let inputTouched = false;
+
+    $(document).ready(function () {
+        const previewContainer = document.getElementById('imagePreviewContainer');
+        const fileInput = document.querySelector('input[name="ImageFile"]');
+        const form = fileInput.closest('form');
+
+        // Mark submit attempt
+        form.addEventListener('submit', function () {
+            submitAttempted = true;
+        });
+
+        fileInput.addEventListener('change', function (event) {
+            inputTouched = true;
+
+            const file = event.target.files[0];
+            let imgPreview = document.getElementById('imagePreview');
+
+            // No file selected
+            if (!file) {
+                if (imgPreview) {
+                    imgPreview.remove();
+                }
+
+                // If user cleared input after touching, keep required to force validation
+                fileInput.setAttribute('required', 'required');
+
+                // Don't validate unless submit already attempted
+                if (submitAttempted && window.jQuery && $.validator) {
+                    $(form).validate().element(fileInput);
+                }
+
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                if (!imgPreview) {
+                    imgPreview = document.createElement('img');
+                    imgPreview.id = 'imagePreview';
+                    previewContainer.appendChild(imgPreview);
+                }
+
+                imgPreview.src = e.target.result;
+
+                // Add required attribute since user uploaded a file
+                fileInput.setAttribute('required', 'required');
+
+                // Validate if submit was attempted
+                if (submitAttempted && window.jQuery && $.validator) {
+                    $(form).validate().element(fileInput);
+                }
+            };
+
+            reader.readAsDataURL(file);
+        });
+    });
+</script>
+
+<div class="d-flex justify-content-center align-items-center bg-light px-3 py-4">
+    <div class="d-flex bg-white rounded shadow edit-vehicle-card">
+        <div class="p-4 w-100">
+            <h2 class="text-center mb-4">Edit vehicle</h2>
+
+            @using (Html.BeginForm("Edit", "Vehicles", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(m => m.VehicleID)
+
+                <div class="mb-3">
+                    @Html.LabelFor(model => model.Type)
+                    @Html.EnumDropDownListFor(model => model.Type, "-- Select --", new { @class = "form-select" })
+                    @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="mb-3">
+                    @Html.LabelFor(model => model.Brand)
+                    @Html.EditorFor(model => model.Brand, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Brand, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="mb-3">
+                    @Html.LabelFor(model => model.Model)
+                    @Html.EditorFor(model => model.Model, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Model, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="mb-3">
+                    @Html.LabelFor(model => model.Fuel)
+                    @Html.EnumDropDownListFor(model => model.Fuel, "-- Select --", new { @class = "form-select" })
+                    @Html.ValidationMessageFor(model => model.Fuel, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="mb-3">
+                    @Html.LabelFor(model => model.Transmission)
+                    @Html.EnumDropDownListFor(model => model.Transmission, "-- Select --", new { @class = "form-select" })
+                    @Html.ValidationMessageFor(model => model.Transmission, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="mb-3">
+                    @Html.LabelFor(model => model.PricePerDay)
+                    @Html.TextBoxFor(m => m.PricePerDay, new
+                    {
+                        @class = "form-control",
+                        type = "number",
+                        min = "1",
+                        step = "1"
+                    })
+                    @Html.ValidationMessageFor(model => model.PricePerDay, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="mb-3">
+                    @Html.LabelFor(model => model.Doors)
+                    @Html.TextBoxFor(m => m.Doors, new
+                    {
+                        @class = "form-control",
+                        type = "number",
+                        min = "1",
+                        max = "10",
+                        step = "1"
+                    })
+                    @Html.ValidationMessageFor(model => model.Doors, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="mb-3">
+                    @Html.LabelFor(model => model.Seats)
+                    @Html.TextBoxFor(m => m.Seats, new
+                    {
+                        @class = "form-control",
+                        type = "number",
+                        min = "1",
+                        max = "10",
+                        step = "1"
+                    })
+                    @Html.ValidationMessageFor(model => model.Seats, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="mb-3">
+                    <div class="form-check">
+                        @Html.CheckBoxFor(m => m.HasAirbag, new { @class = "form-check-input" })
+                        @Html.LabelFor(m => m.HasAirbag, new { @class = "form-check-label" })
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <div class="form-check">
+                        @Html.CheckBoxFor(model => model.HasAbs, new { @class = "form-check-input" })
+                        @Html.LabelFor(m => m.HasAbs, new { @class = "form-check-label" })
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <div class="form-check">
+                        @Html.CheckBoxFor(model => model.HasEsp, new { @class = "form-check-input" })
+                        @Html.LabelFor(m => m.HasEsp, new { @class = "form-check-label" })
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <div class="form-check">
+                        @Html.CheckBoxFor(model => model.HasGps, new { @class = "form-check-input" })
+                        @Html.LabelFor(m => m.HasGps, new { @class = "form-check-label" })
+                    </div>
+                </div>
+
+                if (!string.IsNullOrEmpty(Model.ImageURL))
+                {
+                    <div class="mb-3 text-center" id="imagePreviewContainer">
+                        <img id="imagePreview" src="@Url.Content("~/images/vehicle_images/" + Model.ImageURL)" alt="Current image" />
+                    </div>
+                }
+
+                <div class="mb-3">
+                    <div class="mb-1">
+                        @Html.LabelFor(model => model.ImageFile)
+                    </div>
+                    <input type="file" name="ImageFile" accept="image/*" aria-label="Vehicle image" />
+                    <br />
+                    @Html.ValidationMessageFor(model => model.ImageFile, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="d-flex justify-content-end gap-2 mt-3">
+                    <a href="@Url.Action("Index", "Vehicles")" class="btn btn-secondary">Back</a>
+                    <button type="submit" class="btn btn-success">Save changes</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

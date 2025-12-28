@@ -1,31 +1,49 @@
-﻿
-@{
-    ViewBag.Title = "About";
+﻿@{
+    ViewBag.Title = "About us";
 }
 
-<div class="jumbotron" style="background-color: ghostwhite; color:darkslategrey !important">
-    <div class="container">
-        <h1 style="text-align: center">About</h1>
-        <br />
-        <br />
-        <div class="row">
-            <div class="col-6">
-                <img class="img-fluid" src="~/images/airport.jpg" />
-            </div>
-            <div class="col-6">
-                <h3>A brand you can trust</h3>
-                <p>Turbo Wheels is Skopje's leading independent car rental company. Turbo Wheels
-                is a name that people that visit Skopje frequently know and trust.</p>
-                <h3>Low Cost Car Hire - without compromising on the service</h3>
-                <p>Turbo Wheels stands for value and as such our prices are very competitive. We offer an affordable, 
-                efficient service delivered in a friendly manner. Turbo Wheels have the experience and knowledge to make 
-                your car rental experience in Skopje a pleasurable one.</p>
-                <h3>Save money - book online</h3>
-                <p>Out website has been taking online bookings since 2000. We aim to offer unbeatable car hire
-                prices as well as giving you the facility to book your car in three easy steps. You can get a free quote 
-                and book your car over a secure server. We also offer excellent competitions, and you can sign up to get 
-                the latest special offers emailed direct to your inbox!</p>
-            </div>
+<style>
+    .about-us-wrapper {
+        max-width: 1200px;
+        margin: 1.5rem auto;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 6px 18px rgba(21, 24, 30, 0.08);
+        padding: 1rem 1.5rem;
+    }
+</style>
+
+<div class="about-us-wrapper">
+    <h2 class="text-center mb-4">About us</h2>
+
+    <div class="row g-5">
+        <div class="col-12 col-md-6">
+            <img class="img-fluid" src="~/images/airport.jpg" />
+        </div>
+        <div class="col-12 col-md-6">
+            <h3>A brand you can trust</h3>
+            <p>
+                Turbo Wheels is Skopje's leading independent car rental company.
+                It is a name that people who visit Skopje frequently know and trust.
+            </p>
+
+            <h3 class="mt-4">Low Cost Car Hire - without compromising on service</h3>
+            <p>
+                Turbo Wheels stands for value, and as such our prices are very competitive.
+                We offer an affordable and efficient service delivered in a friendly manner.
+                Turbo Wheels has the experience and knowledge to make your car rental experience
+                in Skopje a pleasant one.
+            </p>
+            <h3 class="mt-4">Save money - book online</h3>
+            <p>
+                Our website has been taking online bookings since 2000.
+                We aim to offer unbeatable car hire prices while giving you the ability
+                to book your car in three easy steps.
+                You can get a free quote and book your car through a secure server.
+                We also offer regular promotions, and you can sign up to receive
+                the latest special offers directly in your inbox.
+            </p>
         </div>
     </div>
+
 </div>

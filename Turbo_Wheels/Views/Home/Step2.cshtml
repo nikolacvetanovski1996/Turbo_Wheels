@@ -1,62 +1,97 @@
-﻿@model Turbo_Wheels.Models.ViewModels.CreditCard
+﻿@model Turbo_Wheels.Models.ViewModels.CreditCardViewModel
 
 @{
     ViewBag.Title = "Step2";
 }
 
-<div class="container">
-    @using (Html.BeginForm())
-    {
-        @Html.AntiForgeryToken()
-        <h2>Insert credit card information</h2>
-        <hr />
-        if ((bool)Session["expiredateIsValid"] == false)
-        {
-            <p style="font-size: 18px; color: red">Your credit card has expired!</p>
-        }
-        if ((bool)Session["monthInRange"] == false)
-        {
-            <p style="font-size: 18px; color: red">Invalid value for month!</p>
-        }
-        <div class="form-horizontal">
-            <div class="form-group">
-                @Html.LabelFor(model => model.CreditCardOwner, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
+<style>
+    .step2-card {
+        max-width: 480px;
+        width: 100%;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 6px 18px rgba(21, 24, 30, 0.08);
+        padding: 1.5rem;
+    }
+
+    .expiry-input {
+        max-width: 70px;
+        text-align: center;
+    }
+</style>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const ccInput = document.getElementById('creditCardNumber');
+
+        ccInput.addEventListener('input', function (e) {
+            let value = e.target.value.replace(/\D/g, ''); // Remove all non-digits
+            let formatted = '';
+
+            for (let i = 0; i < value.length; i++) {
+                if (i > 0 && i % 4 === 0) {
+                    formatted += ' ';
+                }
+                formatted += value[i];
+            }
+
+            e.target.value = formatted;
+        });
+    });
+</script>
+
+
+<div class="d-flex justify-content-center align-items-center bg-light px-3 py-4">
+    <div class="d-flex bg-white rounded shadow step2-card">
+        <div class="p-4 w-100">
+            <h2 class="text-center mb-4">Step 2 - Insert credit card information</h2>
+
+            @using (Html.BeginForm("Step2", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="mb-3">
+                    @Html.LabelFor(model => model.CreditCardOwner)
                     @Html.EditorFor(model => model.CreditCardOwner, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.CreditCardOwner, "", new { @class = "text-danger" })
                 </div>
-            </div>
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.CreditCardNumber, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.CreditCardNumber, new { htmlAttributes = new { @class = "form-control" } })
+                <div class="mb-3">
+                    @Html.LabelFor(model => model.CreditCardNumber)
+                    @Html.EditorFor(model => model.CreditCardNumber, new { htmlAttributes = new { @class = "form-control", id = "creditCardNumber" } })
                     @Html.ValidationMessageFor(model => model.CreditCardNumber, "", new { @class = "text-danger" })
                 </div>
-            </div>
 
-            <div class="form-group">
-                <p>Credit card expiration date</p>
-                <div class="col-md-10">
-                    <input type="number" width="25" name="month" required /> / <input type="number" width="40" name="year" required />
+                <div class="mb-3">
+                    <label>Expiration Date</label>
+                    <div class="d-flex align-items-center gap-2">
+                        @Html.EditorFor(m => m.ExpireMonth, new { htmlAttributes = new { @class = "form-control expiry-input", min = "1", max = "12", placeholder = "MM" } })
+                        <span>/</span>
+                        @Html.EditorFor(m => m.ExpireYear, new { htmlAttributes = new { @class = "form-control expiry-input", min = (DateTime.UtcNow.Year) % 100, max = "99", placeholder = "YY" } })
+                    </div>
+                    <div class="mt-1">
+                        @Html.ValidationMessageFor(m => m.ExpireMonth, "", new { @class = "text-danger me-3" })
+                        @Html.ValidationMessageFor(m => m.ExpireYear, "", new { @class = "text-danger" })
+                    </div>
                 </div>
-            </div>
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.CVC2_CVV2_Number, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.CVC2_CVV2_Number, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.CVC2_CVV2_Number, "", new { @class = "text-danger" })
+                <div class="mb-3">
+                    @Html.LabelFor(model => model.Cvc2Cvv2Number)
+                    @Html.PasswordFor(model => model.Cvc2Cvv2Number, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Cvc2Cvv2Number, "", new { @class = "text-danger" })
                 </div>
-            </div>
 
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Finish reservation" class="btn btn-default" />
+                <div class="d-flex justify-content-end gap-2 mt-3">
+                    <a href="@Url.Action("Step1", "Home")" class="btn btn-secondary">Back</a>
+                    <button type="submit" class="btn btn-success">Finish reservation</button>
                 </div>
-            </div>
-
+            }
         </div>
-    }
-    <hr style="border-width: 5px" />
+    </div>
 </div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

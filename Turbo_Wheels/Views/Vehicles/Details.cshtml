@@ -1,155 +1,125 @@
 ﻿@model Turbo_Wheels.Models.Vehicle
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Vehicle details";
 }
 
-<div class="container">
-    <h2>Details</h2>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.type)
-        </dt>
+<style>
+    .vehicle-details-card {
+        max-width: 480px;
+        width: 100%;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 6px 18px rgba(21, 24, 30, 0.08);
+        padding: 1.5rem;
+    }
 
-        <dd>
-            @Html.DisplayFor(model => model.type)
-        </dd>
+    img {
+        max-height: 300px;
+    }
 
-        <dt>
-            @Html.DisplayNameFor(model => model.brand)
-        </dt>
+    .detail-row {
+        display: flex;
+        padding: 0.4rem 0;
+        border-bottom: 1px solid #eee;
+    }
 
-        <dd>
-            @Html.DisplayFor(model => model.brand)
-        </dd>
+    .detail-row:last-child {
+        border-bottom: none;
+    }
 
-        <dt>
-            @Html.DisplayNameFor(model => model.model)
-        </dt>
+    .detail-row strong {
+        flex: 0 0 140px;
+        font-weight: 600;
+    }
 
-        <dd>
-            @Html.DisplayFor(model => model.model)
-        </dd>
+    .detail-row span {
+        flex: 1;
+        text-align: right;
+    }
+</style>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.fuel)
-        </dt>
+<div class="d-flex justify-content-center align-items-center bg-light px-3 py-4">
+    <div class="d-flex bg-white rounded shadow vehicle-details-card">
+        <div class="p-4 w-100">
+            <h2 class="text-center mb-4">Vehicle details</h2>
 
-        <dd>
-            @Html.DisplayFor(model => model.fuel)
-        </dd>
+            <div class="text-center mb-4">
+                <img src="@Url.Content("~/images/vehicle_images/" + Model.ImageURL)"
+                     class="img-fluid rounded" />
+            </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.transmission)
-        </dt>
+            <div class="detail-row">
+                <strong>Type</strong>
+                <span>@Model.Type</span>
+            </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.transmission)
-        </dd>
+            <div class="detail-row">
+                <strong>Brand</strong>
+                <span>@Model.Brand</span>
+            </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.price_per_day)
-        </dt>
+            <div class="detail-row">
+                <strong>Model</strong>
+                <span>@Model.Model</span>
+            </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.price_per_day)
-        </dd>
+            <div class="detail-row">
+                <strong>Fuel</strong>
+                <span>@Model.Fuel</span>
+            </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.doors)
-        </dt>
+            <div class="detail-row">
+                <strong>Transmission</strong>
+                <span>@Model.Transmission</span>
+            </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.doors)
-        </dd>
+            <div class="detail-row">
+                <strong>Price / day</strong>
+                <span>@Model.PricePerDay</span>
+            </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.seats)
-        </dt>
+            <div class="detail-row">
+                <strong>Doors</strong>
+                <span>@Model.Doors</span>
+            </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.seats)
-        </dd>
+            <div class="detail-row">
+                <strong>Seats</strong>
+                <span>@Model.Seats</span>
+            </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.has_airbag)
-        </dt>
+            <div class="detail-row">
+                <strong>Airbag</strong>
+                <span>
+                    <i class="fa @(Model.HasAirbag ? "fa fa-check text-success fa-lg" : "fa fa-times text-secondary fa-lg")"></i>
+                </span>
+            </div>
 
-        <dd>
-            @{ if (Model.has_airbag)
-                {
-                    <span>Yes</span>
-                }
-                else
-                {
-                    <span>No</span>
-                }
-            }
-        </dd>
+            <div class="detail-row">
+                <strong>ABS</strong>
+                <span>
+                    <i class="fa @(Model.HasAbs ? "fa fa-check text-success fa-lg" : "fa fa-times text-secondary fa-lg")"></i>
+                </span>
+            </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.has_ABS)
-        </dt>
+            <div class="detail-row">
+                <strong>ESP</strong>
+                <span>
+                    <i class="fa @(Model.HasEsp ? "fa fa-check text-success fa-lg" : "fa fa-times text-secondary fa-lg")"></i>
+                </span>
+            </div>
 
-        <dd>
-            @{ if (Model.has_ABS)
-                {
-                    <span>Yes</span>
-                }
-                else
-                {
-                    <span>No</span>
-                }
-            }
-        </dd>
+            <div class="detail-row">
+                <strong>GPS</strong>
+                <span>
+                    <i class="fa @(Model.HasGps ? "fa fa-check text-success fa-lg" : "fa fa-times text-secondary fa-lg")"></i>
+                </span>
+            </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.has_ESP)
-        </dt>
-
-        <dd>
-            @{ if (Model.has_ESP)
-                {
-                    <span>Yes</span>
-                }
-                else
-                {
-                    <span>No</span>
-                }
-            }
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.has_GPS)
-        </dt>
-
-        <dd>
-            @{ if (Model.has_GPS)
-                {
-                    <span>Yes</span>
-                }
-                else
-                {
-                    <span>No</span>
-                }
-            }
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.imageURL)
-        </dt>
-
-        <dd>
-            <img src="@Url.Content("~/images/vehicle_images/"+Model.imageURL)" width="450" />
-        </dd>
-
-    </dl>
-
-    <p>
-        @Html.ActionLink("Back to List", "Index")
-    </p>
-
-    <hr style="border-width: 5px" />
-
+            <div class="d-flex justify-content-end mt-4">
+                <a href="@Url.Action("Index", "Vehicles")" class="btn btn-secondary">Back</a>
+            </div>
+        </div>
+    </div>
 </div>

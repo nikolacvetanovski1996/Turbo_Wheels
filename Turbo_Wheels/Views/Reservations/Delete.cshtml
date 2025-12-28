@@ -1,114 +1,113 @@
 ﻿@model Turbo_Wheels.Models.Reservation
 
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = "Delete reservation";
 }
 
-<div class="container">
-    <h2>Delete reservation</h2>
-    <hr />
-    <h3>Are you sure you want to delete this?</h3>
-
-    <dl class="dl-horizontal">
-        <dt>
-            Name and surname
-        </dt>
-
-        <dd>
-            @(Model.user.firstName + " " + Model.user.lastName)
-        </dd>
-
-        <dt>
-            Vehicle
-            <br />
-        </dt>
-
-        <dd>
-            <img src="@Url.Content("~/images/vehicle_images/"+Model.vehicle.imageURL)" width="450" />
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.pickupDateTime)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.pickupDateTime)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.pickupPlace)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.pickupPlace)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.returnDateTime)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.returnDateTime)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.returnPlace)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.returnPlace)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.totalPrice)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.totalPrice)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CreditCardOwner)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CreditCardOwner)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CreditCardNumber)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CreditCardNumber)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CreditCardExpireDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CreditCardExpireDate)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CVC2_CVV2_Number)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CVC2_CVV2_Number)
-        </dd>
-
-    </dl>
-
-    @using (Html.BeginForm())
-    {
-        @Html.AntiForgeryToken()
-
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
-        </div>
+<style>
+    .delete-reservation-card {
+        max-width: 480px;
+        width: 100%;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 6px 18px rgba(21, 24, 30, 0.08);
+        padding: 1.5rem;
     }
-    <hr style="border-width: 5px" />
+
+    img {
+        max-height: 300px;
+    }
+
+    .detail-row {
+        display: flex;
+        padding: 0.4rem 0;
+        border-bottom: 1px solid #eee;
+    }
+
+    .detail-row:last-child {
+        border-bottom: none;
+    }
+
+    .detail-row strong {
+        flex: 0 0 140px;
+        font-weight: 600;
+    }
+
+    .detail-row span {
+        flex: 1;
+        text-align: right;
+    }
+</style>
+
+<div class="d-flex justify-content-center align-items-center bg-light px-3 py-4">
+    <div class="d-flex bg-white rounded shadow delete-reservation-card">
+        <div class="p-4 w-100">
+            <h2 class="text-center mb-4">Delete reservation?</h2>
+
+            <div class="detail-row">
+                <strong>Name and surname</strong>
+                <span>@(Model.User.FirstName + " " + Model.User.LastName)</span>
+            </div>
+
+            <div class="detail-row">
+                <strong>Vehicle</strong>
+                <span>@(Model.Vehicle.Brand + " " + Model.Vehicle.Model)</span>
+            </div>
+
+            <div class="detail-row">
+                <img src="@Url.Content("~/images/vehicle_images/" + Model.Vehicle.ImageURL)"
+                     class="img-fluid rounded" />
+            </div>
+
+            <div class="detail-row">
+                <strong>Pickup date and time</strong>
+                <span>@Model.PickupDateTime.ToString("g")</span>
+            </div>
+
+            <div class="detail-row">
+                <strong>Pickup place</strong>
+                <span>@Model.PickupPlace</span>
+            </div>
+
+
+            <div class="detail-row">
+                <strong>Return date and time</strong>
+                <span>@Model.ReturnDateTime.ToString("g")</span>
+            </div>
+
+            <div class="detail-row">
+                <strong>Return place</strong>
+                <span>@Model.ReturnPlace</span>
+            </div>
+
+            <div class="detail-row">
+                <strong>Total price</strong>
+                <span>@Model.TotalPrice.ToString("N2") MKD</span>
+            </div>
+
+            <div class="detail-row">
+                <strong>Credit card owner</strong>
+                <span>@Model.CreditCardOwner</span>
+            </div>
+
+            <div class="detail-row">
+                <strong>Last 4 digits of the credit card</strong>
+                <span>****@Model.CreditCardLast4</span>
+            </div>
+
+            <div class="detail-row">
+                <strong>Credit card expiration date</strong>
+                <span>@Model.CreditCardExpiryDate</span>
+            </div>
+
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                <div class="d-flex justify-content-end gap-2 mt-3">
+                    <a href="@Url.Action("Index", "Reservations")" class="btn btn-secondary">Back</a>
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </div>
+            }
+        </div>
+    </div>
 </div>

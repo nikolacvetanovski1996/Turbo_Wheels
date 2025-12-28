@@ -1,111 +1,165 @@
 ﻿@{
-    var isAdmin = bool.Parse(Request.Cookies["isAdmin"].Value);
-    var namesurname = Request.Cookies["namesurname"].Value;
+    var isAdminCookie = Request.Cookies["isAdmin"];
+    var nameCookie = Request.Cookies["nameSurname"];
+
+    bool isAdmin = false;
+    string nameSurname = "";
+
+    if (isAdminCookie != null)
+    {
+        bool.TryParse(isAdminCookie.Value, out isAdmin);
+    }
+
+    if (nameCookie != null)
+    {
+        nameSurname = nameCookie.Value;
+    }
 }
 
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @Scripts.Render("~/bundles/jqueryui")
-    <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
-    <style>
-        .dropbtn {
-            background-color: #4CAF50;
-            color: white;
-            padding: 16px;
-            font-size: 16px;
-            border: none;
-        }
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>@ViewBag.Title</title>
+        @Styles.Render("~/Content/css")
+        @Scripts.Render("~/bundles/modernizr")
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")
+        @Scripts.Render("~/bundles/jqueryui")
 
-        .dropdown {
-            position: relative;
-            display: inline-block;
-        }
+        <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
 
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: #f1f1f1;
-            min-width: 160px;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-            z-index: 1;
-        }
+        <style>
+            .navbar-dark .navbar-brand {
+                color: rgba(255, 255, 255, 0.55);
+            }
 
-        .dropdown-content a {
-            color: black;
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-        }
+            .navbar-dark .navbar-brand:hover {
+                color: rgba(255, 255, 255, 0.75);
+            }
 
-        .dropdown-content a:hover {
-            background-color: #ddd;
-        }
+            @@media (max-width: 576px) {
+                .navbar-nav .nav-item {
+                    margin: 0 auto;
+                }
 
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
+                .footer-links-column {
+                    margin-bottom: 25px;
+                }
 
-        .dropdown:hover .dropbtn {
-            background-color: #3e8e41;
-        }
-    </style>
-</head>
+                .footer-links-column:last-child {
+                    margin-bottom: 0;
+                }
+            }
 
-<body>
-    @if (isAdmin == true)
-    {
-        <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top justify-content-center">
-            <a class="navbar-brand" href="~/Home/Index"><img src="~/images/logo.png" /> TURBO WHEELS &reg;</a>
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="~/Users/Index">Users</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="~/Vehicles/Index">Vehicles</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="~/Reservations/Index">Reservations</a>
-                </li>
-                <li class="nav-item">
-                    <div class="dropdown">
-                        <button class="btn btn-secondary">Hello @Request.Cookies["namesurname"].Value</button>
-                        <div class="dropdown-content">
-                            <a href="~/Home/Login">Log out</a>
-                        </div>
-                    </div>
-                </li>
-            </ul>
+            iframe {
+                width: 100%;
+                height: 230px;
+                border: 0;
+            }
+
+            .pr-10 {
+                padding-right: 10px;
+            }
+
+            .section-title {
+                font-size: 24px;
+            }
+
+            .full-width {
+                width: 100%;
+            }
+        </style>
+    </head>
+
+    <body class="bg-light">
+
+        <nav class="navbar navbar-expand-sm navbar-dark bg-dark sticky-top">
+            <div class="container-fluid">
+
+                <!-- BRAND (hidden on mobile, shown inside menu instead) -->
+                <a class="navbar-brand d-none d-sm-flex align-items-center" href="~/Home/Index">
+                    <img src="~/images/logo.png" class="me-2" />
+                    TURBO WHEELS &reg;
+                </a>
+
+                <!-- HAMBURGER -->
+                <button class="navbar-toggler ms-auto" type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#mainNavbar"
+                        aria-controls="mainNavbar"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- COLLAPSE -->
+                <div class="collapse navbar-collapse text-center" id="mainNavbar">
+
+                    <ul class="navbar-nav">
+
+                        <!-- BRAND INSIDE MENU (mobile only) -->
+                        <li class="nav-item d-sm-none mt-2">
+                            <a class="nav-link fw-bold" href="~/Home/Index">
+                                <img src="~/images/logo.png" class="me-2" />
+                                TURBO WHEELS &reg;
+                            </a>
+                        </li>
+
+                        @if (isAdmin)
+                        {
+                            <li class="nav-item"><a class="nav-link" href="~/Users/Index">Users</a></li>
+                            <li class="nav-item"><a class="nav-link" href="~/Vehicles/Index">Vehicles</a></li>
+                            <li class="nav-item"><a class="nav-link" href="~/Reservations/Index">Reservations</a></li>
+                        }
+                        else
+                        {
+                            <li class="nav-item"><a class="nav-link" href="~/Home/Index">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="~/Home/About">About Us</a></li>
+                        }
+
+                        <!-- LOGOUT (mobile only) -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("Logout", "Home")">Log out</a>
+                        </li>
+                    </ul>
+
+                    <!-- USER MENU (desktop only) -->
+                    <ul class="navbar-nav ms-auto d-none d-sm-flex">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#"
+                               id="userDropdown"
+                               role="button"
+                               data-bs-toggle="dropdown"
+                               aria-expanded="false">
+                                Hello @nameSurname
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li>
+                                    <a class="dropdown-item" href="@Url.Action("Logout", "Home")">
+                                        Log out
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
         </nav>
-    }
-    @if (isAdmin == false)
-    {
-        <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top justify-content-center">
-            <a class="navbar-brand" href="~/Home/Index"><img src="~/images/logo.png" /> TURBO WHEELS &reg;</a>
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="~/Home/Index">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="~/Home/About">About Us</a>
-                </li>
-            </ul>
-        </nav>
-    }
 
-    <div>
-        @RenderBody()
+        <div class="d-flex flex-column">
+            <main>
+                @RenderBody()
+                <hr class="hr-main" />
+            </main>
+        </div>
+
         <div class="container">
             <div class="row">
-                <div class="col-5" style="padding-right: 10px">
-                    <div style="font-size: 24px">
+                <div class="footer-links-column col-12 col-md-5 pr-10">
+                    <div class="section-title">
                         TURBO WHEELS Rent A Car
                         <hr />
                     </div>
@@ -127,8 +181,8 @@
                     <i class="fa fa-envelope"></i>
                     <a href="mailto:rentacar@turbowheels.com.mk">rentacar@turbowheels.com.mk</a>
                 </div>
-                <div class="col-3" style="padding-right: 10px">
-                    <div style="font-size: 24px">
+                <div class="footer-links-column col-12 col-md-3 pr-10">
+                    <div class="section-title">
                         Site Links
                         <hr />
                     </div>
@@ -144,17 +198,26 @@
                         <span>&gt;</span> <a href="~/Home/About">About Us</a> <br />
                     }
                 </div>
-                <div class="col-4">
-                    <div style="width: 100%"><iframe width="100%" height="230" src="https://maps.google.com/maps?width=100%&amp;height=230&amp;hl=en&amp;q=Airport%20Skopje+(TurboWheels)&amp;ie=UTF8&amp;t=&amp;z=10&amp;iwloc=A&amp;output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"><a href="https://www.maps.ie/create-google-map/">Google Maps iframe generator</a></iframe></div><br />
+                <div class="footer-links-column col-12 col-md-4">
+                    <div class="full-width">
+                        <iframe src="https://maps.google.com/maps?width=100%&amp;height=230&amp;hl=en&amp;q=Airport%20Skopje+(TurboWheels)&amp;ie=UTF8&amp;t=&amp;z=10&amp;iwloc=A&amp;output=embed"
+                                title="Turbo Wheels - Skopje Airport location" loading="lazy" referrerpolicy="no-referrer-when-downgrade" frameborder="0" scrolling="no" marginheight="0" marginwidth="0">
+                            <a href="https://www.maps.ie/create-google-map/">
+                                Google Maps iframe generator
+                            </a>
+                        </iframe>
+                    </div>
                 </div>
             </div>
         </div>
+
         <hr />
-        <footer style="text-align: center">
+
+        <footer class="text-center">
             <p>TURBO WHEELS &copy; @DateTime.Now.Year</p>
         </footer>
-    </div>
 
-    @RenderSection("scripts", required: false)
-</body>
+        @RenderSection("scripts", required: false)
+
+    </body>
 </html>

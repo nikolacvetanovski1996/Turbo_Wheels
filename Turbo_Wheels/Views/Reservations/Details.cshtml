@@ -1,107 +1,107 @@
 ﻿@model Turbo_Wheels.Models.Reservation
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Reservation details";
 }
 
-<div class="container">
-    <h2>Details</h2>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            Name and surname
-        </dt>
+<style>
+    .reservation-details-card {
+        max-width: 480px;
+        width: 100%;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 6px 18px rgba(21, 24, 30, 0.08);
+        padding: 1.5rem;
+    }
 
-        <dd>
-            @(Model.user.firstName + " " + Model.user.lastName)
-        </dd>
+    img {
+        max-height: 300px;
+    }
 
-        <dt>
-            Vehicle
-            <br />
-        </dt>
-        <dd>
-            <img src="@Url.Content("~/images/vehicle_images/"+Model.vehicle.imageURL)" width="450" />
-        </dd>
+    .detail-row {
+        display: flex;
+        padding: 0.4rem 0;
+        border-bottom: 1px solid #eee;
+    }
 
-        <dt>
-            @Html.DisplayNameFor(model => model.pickupDateTime)
-        </dt>
+    .detail-row:last-child {
+        border-bottom: none;
+    }
 
-        <dd>
-            @Html.DisplayFor(model => model.pickupDateTime)
-        </dd>
+    .detail-row strong {
+        flex: 0 0 140px;
+        font-weight: 600;
+    }
 
-        <dt>
-            @Html.DisplayNameFor(model => model.pickupPlace)
-        </dt>
+    .detail-row span {
+        flex: 1;
+        text-align: right;
+        }
+</style>
 
-        <dd>
-            @Html.DisplayFor(model => model.pickupPlace)
-        </dd>
+<div class="d-flex justify-content-center align-items-center bg-light px-3 py-4">
+    <div class="d-flex bg-white rounded shadow reservation-details-card">
+        <div class="p-4 w-100">
+            <h2 class="text-center mb-4">Reservation details</h2>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.returnDateTime)
-        </dt>
+            <div class="detail-row">
+                <strong>Name and surname</strong>
+                <span>@(Model.User.FirstName + " " + Model.User.LastName)</span>
+            </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.returnDateTime)
-        </dd>
+            <div class="detail-row">
+                <strong>Vehicle</strong>
+                <span>@(Model.Vehicle.Brand + " " + Model.Vehicle.Model)</span>
+            </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.returnPlace)
-        </dt>
+            <div class="detail-row">
+                <img src="@Url.Content("~/images/vehicle_images/" + Model.Vehicle.ImageURL)"
+                     class="img-fluid rounded" />
+            </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.returnPlace)
-        </dd>
+            <div class="detail-row">
+                <strong>Pickup date and time</strong>
+                <span>@Model.PickupDateTime.ToString("g")</span>
+            </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.totalPrice)
-        </dt>
+            <div class="detail-row">
+                <strong>Pickup place</strong>
+                <span>@Model.PickupPlace</span>
+            </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.totalPrice)
-        </dd>
+            <div class="detail-row">
+                <strong>Return date and time</strong>
+                <span>@Model.ReturnDateTime.ToString("g")</span>
+            </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.CreditCardOwner)
-        </dt>
+            <div class="detail-row">
+                <strong>Return place</strong>
+                <span>@Model.ReturnPlace</span>
+            </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.CreditCardOwner)
-        </dd>
+            <div class="detail-row">
+                <strong>Total price</strong>
+                <span>@Model.TotalPrice.ToString("N2") MKD</span>
+            </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.CreditCardNumber)
-        </dt>
+            <div class="detail-row">
+                <strong>Credit card owner</strong>
+                <span>@Model.CreditCardOwner</span>
+            </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.CreditCardNumber)
-        </dd>
+            <div class="detail-row">
+                <strong>Last 4 digits of the credit card</strong>
+                <span>****@Model.CreditCardLast4</span>
+            </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.CreditCardExpireDate)
-        </dt>
+            <div class="detail-row">
+                <strong>Credit card expiration date</strong>
+                <span>@Model.CreditCardExpiryDate</span>
+            </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.CreditCardExpireDate)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CVC2_CVV2_Number)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CVC2_CVV2_Number)
-        </dd>
-
-    </dl>
-
-    <p>
-        @Html.ActionLink("Back to List", "Index")
-    </p>
-
-    <hr style="border-width: 5px" />
-
+            <div class="d-flex justify-content-end mt-4">
+                <a href="@Url.Action("Index", "Reservations")" class="btn btn-secondary">Back</a>
+            </div>
+        </div>
+    </div>
 </div>

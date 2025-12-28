@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Web;
 
 namespace Turbo_Wheels.Models
 {
@@ -11,38 +7,48 @@ namespace Turbo_Wheels.Models
     {
         [Key]
         public int ReservationID { get; set; }
+
         [Required]
         [Display(Name = "Date and time of taking")]
-        public DateTime pickupDateTime { get; set; }
+        public DateTime PickupDateTime { get; set; }
+
         [Required]
         [Display(Name = "Place of taking")]
-        public string pickupPlace { get; set; }
+        public string PickupPlace { get; set; }
+
         [Required]
         [Display(Name = "Date and time of return")]
-        public DateTime returnDateTime { get; set; }
+        public DateTime ReturnDateTime { get; set; }
+
         [Required]
         [Display(Name = "Place of return")]
-        public string returnPlace { get; set; }
+        public string ReturnPlace { get; set; }
+
         [Required]
         [Display(Name = "Total price in MKD denars")]
-        public int totalPrice { get; set; }
+        public int TotalPrice { get; set; }
+
         [Required]
         [Display(Name = "Name of Credit Card owner")]
         public string CreditCardOwner { get; set; }
+
         [Required]
-        [Display(Name = "Credit Card Number")]
-        public int CreditCardNumber { get; set; }
+        [StringLength(4, MinimumLength = 4)]
+        [Display(Name = "Last 4 digits of the Credit Card Number")]
+        public string CreditCardLast4 { get; set; }
+
         [Required]
-        [Display(Name = "Credit Card Expiration Date")]
-        public DateTime CreditCardExpireDate { get; set; }
+        [Display(Name = "Credit Card Expiry Date")]
+        public string CreditCardExpiryDate { get; set; }
+
         [Required]
-        [Display(Name = "CVC2 CVV2 Number")]
-        public int CVC2_CVV2_Number { get; set; }
+        public int VehicleID { get; set; }
+
+        public Vehicle Vehicle { get; set; }
+
         [Required]
-        public int vehicleID { get; set; }
-        public Vehicle vehicle { get; set; }
-        [Required]
-        public int userID { get; set; }
-        public User user { get; set; }
+        public int UserID { get; set; }
+
+        public User User { get; set; }
     }
 }

@@ -1,90 +1,176 @@
 ﻿@model IEnumerable<Turbo_Wheels.Models.User>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "User list";
 }
 
-<div class="container">
+<style>
+    .users-table-wrapper {
+        max-width: 1200px;
+        margin: 1.5rem auto;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 6px 18px rgba(21, 24, 30, 0.08);
+        padding: 1rem 1.5rem;
+    }
 
-    <h2>Users</h2>
+    .table-responsive-wrapper {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
 
-    <p>
-        @Html.ActionLink("Create New", "Create")
-    </p>
-    <table class="table">
-        @if (Model.Count() != 0)
+    table.users-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0 0.5rem;
+        font-size: 0.95rem;
+    }
+
+    table.users-table th,
+    table.users-table td {
+        padding: 0.6rem 0.8rem;
+        vertical-align: middle;
+        background: #fefefe;
+        border-radius: 8px;
+    }
+
+    table.users-table th {
+        background: transparent;
+        font-weight: 700;
+        color: #444;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    table.users-table tbody tr:hover td {
+        background: #f8f9fa;
+    }
+
+    td {
+        max-width: 220px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .feature-icon {
+        font-size: 1.15rem;
+        width: 26px;
+        text-align: center;
+    }
+
+    .feature-icon.present {
+        color: #28a745;
+    }
+
+    .feature-icon.absent {
+        color: #6c757d;
+    }
+
+    .action-buttons {
+        white-space: nowrap;
+        display: flex;
+        gap: 0.5rem;
+    }
+
+    .action-link {
+        color: #555;
+        cursor: pointer;
+        display: inline-block;
+        font-size: 1.3rem;
+        transition: color 0.15s ease-in-out;
+    }
+
+    .action-link:hover {
+        color: #000;
+        text-decoration: none;
+    }
+
+    .action-link.edit:hover {
+        color: #007bff;
+    }
+
+    .action-link.delete {
+        color: #dc3545;
+    }
+
+    .create-btn-wrapper {
+        text-align: right;
+        margin-bottom: 1rem;
+    }
+
+    .th-actions {
+        width: 110px;
+    }
+</style>
+
+<div class="users-table-wrapper">
+    <h2 class="text-center mb-4">User list</h2>
+
+    <div class="create-btn-wrapper">
+        <a href="@Url.Action("Create", "Users")" class="btn btn-primary">
+            <i class="fa fa-plus me-1"></i> Create New
+        </a>
+    </div>
+
+    <div class="table-responsive-wrapper">
+        @if (Model != null && Model.Any())
         {
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.username)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.password)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.isAdmin)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.firstName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.lastName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.email)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.address)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.phone)
-                </th>
-                <th></th>
-            </tr>
-        }
-        
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.username)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.password)
-                </td>
-                <td>
-                    @{ if (item.isAdmin)
-                        {
-                            <span>Yes</span>
-                        }
-                        else
-                        {
-                            <span>No</span>
-                        }
+            <table class="users-table">
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th title="Admin">Admin</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>Address</th>
+                        <th>Phone</th>
+                        <th class="th-actions">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in Model)
+                    {
+                        <tr>
+                            <td>@user.Username</td>
+
+                            <td class="feature-icon @(user.IsAdmin ? "present" : "absent")" title="Admin">
+                                <i class="fa @(user.IsAdmin ? "fa-check" : "fa-times")"></i>
+                            </td>
+
+                            <td>@user.FirstName</td>
+                            <td>@user.LastName</td>
+                            <td><a href="mailto:@user.Email">@user.Email</a></td>
+                            <td>@user.Address</td>
+                            <td>
+                                @if (!string.IsNullOrWhiteSpace(user.Phone))
+                                {
+                                    <a href="tel:@user.Phone">@user.Phone</a>
+                                }
+                            </td>
+
+                            <td>
+                                <div class="action-buttons">
+                                    <a href="@Url.Action("Details", "Users", new { id = user.UserID })" class="action-link" title="Details" aria-label="View details of @user.FirstName @user.LastName">
+                                        <i class="fa fa-eye"></i>
+                                    </a>
+                                    <a href="@Url.Action("Edit", "Users", new { id = user.UserID })" class="action-link edit" title="Edit" aria-label="Edit @user.FirstName @user.LastName">
+                                        <i class="fa fa-edit"></i>
+                                    </a>
+                                    <a href="@Url.Action("Delete", "Users", new { id = user.UserID })" class="action-link delete" title="Delete" aria-label="Delete @user.FirstName @user.LastName">
+                                        <i class="fa fa-trash"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
                     }
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.firstName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.lastName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.email)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.address)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.phone)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.userID }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.userID }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.userID })
-                </td>
-            </tr>
+                </tbody>
+            </table>
         }
-    </table>
-    <hr style="border-width: 5px" />
+        else
+        {
+            <p>No users found.</p>
+        }
+    </div>
 </div>

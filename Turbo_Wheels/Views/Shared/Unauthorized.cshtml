@@ -1,0 +1,39 @@
+﻿@{
+    ViewBag.Title = "Unauthorized";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .unauthorized-card {
+        max-width: 480px;
+        width: 100%;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 6px 18px rgba(21, 24, 30, 0.08);
+        padding: 1.5rem;
+    }
+
+    a {
+        font-size: 21px;
+    }
+</style>
+
+<div class="d-flex justify-content-center align-items-center bg-light px-3 py-4">
+    <div class="d-flex bg-white rounded shadow unauthorized-card">
+        <div class="p-4 w-100 text-center">
+            <h2 class="mb-4">403 - Unauthorized</h2>
+
+            <p class="lead">
+                Sorry, you do not have permission to access this page.
+            </p>
+            <hr />
+            <p>
+                If you believe this is a mistake, please contact the administrator.
+            </p>
+
+            <a href="~/Home/Index" class="btn btn-primary mt-4">
+                Return to Home
+            </a>
+        </div>
+    </div>
+</div>

@@ -1,98 +1,172 @@
 ﻿@model IEnumerable<Turbo_Wheels.Models.Reservation>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Reservation list";
 }
 
-<div class="container">
+<style>
+    .reservations-table-wrapper {
+        max-width: 1200px;
+        margin: 1.5rem auto;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 6px 18px rgba(21, 24, 30, 0.08);
+        padding: 1rem 1.5rem;
+    }
 
-    <h2>Reservations</h2>
+    .table-responsive-wrapper {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
 
-    <table class="table">
-        @if (Model.Count() != 0)
+    table.reservations-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0 0.5rem;
+        font-size: 0.95rem;
+    }
+
+    table.reservations-table th,
+    table.reservations-table td {
+        padding: 0.6rem 0.8rem;
+        vertical-align: middle;
+        background: #fefefe;
+        border-radius: 8px;
+    }
+
+    table.reservations-table th {
+        background: transparent;
+        font-weight: 700;
+        color: #444;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    table.reservations-table tbody tr:hover td {
+        background: #f8f9fa;
+    }
+
+    td {
+        max-width: 220px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .vehicle-image-thumb {
+        width: 120px;
+        height: 80px;
+        object-fit: cover;
+        border-radius: 8px;
+        display: block;
+        margin: auto;
+    }
+
+    .feature-icon {
+        font-size: 1.15rem;
+        width: 26px;
+        text-align: center;
+    }
+
+    .feature-icon.present {
+        color: #28a745;
+    }
+
+    .feature-icon.absent {
+        color: #6c757d;
+    }
+
+    .action-buttons {
+        white-space: nowrap;
+        display: flex;
+        gap: 0.5rem;
+    }
+
+    .action-link {
+        color: #555;
+        cursor: pointer;
+        display: inline-block;
+        font-size: 1.3rem;
+        transition: color 0.15s ease-in-out;
+    }
+
+    .action-link:hover {
+        color: #000;
+        text-decoration: none;
+    }
+
+    .action-link.edit:hover {
+        color: #007bff;
+    }
+
+    .action-link.delete {
+        color: #dc3545;
+    }
+
+    .th-actions {
+        width: 110px;
+    }
+</style>
+
+<div class="reservations-table-wrapper">
+    <h2 class="text-center mb-4">Reservation list</h2>
+
+    <div class="table-responsive-wrapper">
+        @if (Model != null && Model.Any())
         {
-            <tr>
-                <th>
-                    Name and surname
-                </th>
-                <th>
-                    Vehicle
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.pickupDateTime)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.pickupPlace)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.returnDateTime)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.returnPlace)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.totalPrice)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.CreditCardOwner)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.CreditCardNumber)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.CreditCardExpireDate)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.CVC2_CVV2_Number)
-                </th>
-                <th></th>
-            </tr>
+            <table class="reservations-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Name and surname</th>
+                        <th>Vehicle</th>
+                        <th>Pickup date/time</th>
+                        <th>Pickup place</th>
+                        <th>Return date/time</th>
+                        <th>Return place</th>
+                        <th>Total price</th>
+                        <th>Card owner</th>
+                        <th>Card No. (last 4)</th>
+                        <th>Expiry (ММ/YY)</th>
+                        <th class="th-actions">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var reservation in Model)
+                    {
+                        <tr>
+                            <td>@reservation.ReservationID</td>
+                            <td>@(reservation.User.FirstName + " " + reservation.User.LastName)</td>
+                            <td>
+                                <img src="@Url.Content("~/images/vehicle_images/" + reservation.Vehicle.ImageURL)" alt="Image of @reservation.Vehicle.Brand @reservation.Vehicle.Model" class="vehicle-image-thumb" />
+                            </td>
+                            <td>@reservation.PickupDateTime.ToString("g")</td>
+                            <td>@reservation.PickupPlace</td>
+                            <td>@reservation.ReturnDateTime.ToString("g")</td>
+                            <td>@reservation.ReturnPlace</td>
+                            <td>@reservation.TotalPrice.ToString("N2") MKD</td>
+                            <td>@reservation.CreditCardOwner</td>
+                            <td>****@reservation.CreditCardLast4</td>
+                            <td>@reservation.CreditCardExpiryDate</td>
+
+                            <td>
+                                <div class="action-buttons">
+                                    <a href="@Url.Action("Details", "Reservations", new { id = reservation.ReservationID })" class="action-link" title="Details" aria-label="View details of reservation #@reservation.ReservationID">
+                                        <i class="fa fa-eye"></i>
+                                    </a>
+                                    <a href="@Url.Action("Delete", "Reservations", new { id = reservation.ReservationID })" class="action-link delete" title="Delete" aria-label="Delete reservation #@reservation.ReservationID">
+                                        <i class="fa fa-trash"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         }
-        @foreach (var item in Model)
+        else
         {
-            <tr>
-                <td>
-                    @(item.user.firstName + " " + item.user.lastName)
-                </td>
-                <td>
-                    <img src="@Url.Content("~/images/vehicle_images/"+item.vehicle.imageURL)" width="100" />
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.pickupDateTime)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.pickupPlace)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.returnDateTime)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.returnPlace)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.totalPrice)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CreditCardOwner)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CreditCardNumber)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CreditCardExpireDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CVC2_CVV2_Number)
-                </td>
-                <td>
-                    @Html.ActionLink("Details", "Details", new { id = item.ReservationID })
-                    @Html.ActionLink("Delete", "Delete", new { id = item.ReservationID })
-                </td>
-            </tr>
+            <p>No reservations found.</p>
         }
-
-    </table>
-
-    <hr style="border-width: 5px" />
-
+    </div>
 </div>

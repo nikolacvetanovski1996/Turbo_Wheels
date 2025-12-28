@@ -1,164 +1,130 @@
 ﻿@model Turbo_Wheels.Models.Vehicle
 
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = "Delete vehicle";
 }
 
-<div class="container">
-    <h2>Delete vehicle</h2>
-
-    <hr />
-    <h3>Are you sure you want to delete this?</h3>
-
-    <dl class="dl-horizontal">
-
-        <dt>
-            @Html.DisplayNameFor(model => model.type)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.type)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.brand)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.brand)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.model)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.model)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.fuel)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.fuel)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.transmission)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.transmission)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.price_per_day)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.price_per_day)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.doors)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.doors)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.seats)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.seats)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.has_airbag)
-        </dt>
-
-        <dd>
-            @{ if (Model.has_airbag)
-                {
-                    <span>Yes</span>
-                }
-                else
-                {
-                    <span>No</span>
-                }
-            }
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.has_ABS)
-        </dt>
-
-        <dd>
-            @{ if (Model.has_ABS)
-                {
-                    <span>Yes</span>
-                }
-                else
-                {
-                    <span>No</span>
-                }
-            }
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.has_ESP)
-        </dt>
-
-        <dd>
-            @{ if (Model.has_ESP)
-                {
-                    <span>Yes</span>
-                }
-                else
-                {
-                    <span>No</span>
-                }
-            }
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.has_GPS)
-        </dt>
-
-        <dd>
-            @{ if (Model.has_GPS)
-                {
-                    <span>Yes</span>
-                }
-                else
-                {
-                    <span>No</span>
-                }
-            }
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.imageURL)
-        </dt>
-
-        <dd>
-            <img src="@Url.Content("~/images/vehicle_images/"+Model.imageURL)" width="450" />
-        </dd>
-
-    </dl>
-
-    @using (Html.BeginForm())
-    {
-        @Html.AntiForgeryToken()
-
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
-        </div>
+<style>
+    .delete-vehicle-card {
+        max-width: 480px;
+        width: 100%;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 6px 18px rgba(21, 24, 30, 0.08);
+        padding: 1.5rem;
     }
 
-    <hr style="border-width: 5px" />
+    img {
+        max-height: 300px;
+    }
+
+    .detail-row {
+        display: flex;
+        padding: 0.4rem 0;
+        border-bottom: 1px solid #eee;
+    }
+
+    .detail-row:last-child {
+        border-bottom: none;
+    }
+
+    .detail-row strong {
+        flex: 0 0 140px;
+        font-weight: 600;
+    }
+
+    .detail-row span {
+        flex: 1;
+        text-align: right;
+    }
+</style>
+
+<div class="d-flex justify-content-center align-items-center bg-light px-3 py-4">
+    <div class="d-flex bg-white rounded shadow delete-vehicle-card">
+        <div class="p-4 w-100">
+            <h2 class="text-center mb-4">Delete vehicle?</h2>
+
+            <div class="text-center mb-4">
+                <img src="@Url.Content("~/images/vehicle_images/" + Model.ImageURL)"
+                     class="img-fluid rounded" />
+            </div>
+
+            <div class="detail-row">
+                <strong>Type</strong>
+                <span>@Model.Type</span>
+            </div>
+
+            <div class="detail-row">
+                <strong>Brand</strong>
+                <span>@Model.Brand</span>
+            </div>
+
+            <div class="detail-row">
+                <strong>Model</strong>
+                <span>@Model.Model</span>
+            </div>
+
+            <div class="detail-row">
+                <strong>Fuel</strong>
+                <span>@Model.Fuel</span>
+            </div>
+
+            <div class="detail-row">
+                <strong>Transmission</strong>
+                <span>@Model.Transmission</span>
+            </div>
+
+            <div class="detail-row">
+                <strong>Price / day</strong>
+                <span>@Model.PricePerDay</span>
+            </div>
+
+            <div class="detail-row">
+                <strong>Doors</strong>
+                <span>@Model.Doors</span>
+            </div>
+
+            <div class="detail-row">
+                <strong>Seats</strong>
+                <span>@Model.Seats</span>
+            </div>
+
+            <div class="detail-row">
+                <strong>Airbag</strong>
+                <span>
+                    <i class="fa @(Model.HasAirbag ? "fa fa-check text-success fa-lg" : "fa fa-times text-secondary fa-lg")"></i>
+                </span>
+            </div>
+
+            <div class="detail-row">
+                <strong>ABS</strong>
+                <span>
+                    <i class="fa @(Model.HasAbs ? "fa fa-check text-success fa-lg" : "fa fa-times text-secondary fa-lg")"></i>
+                </span>
+            </div>
+
+            <div class="detail-row">
+                <strong>ESP</strong>
+                <span>
+                    <i class="fa @(Model.HasEsp ? "fa fa-check text-success fa-lg" : "fa fa-times text-secondary fa-lg")"></i>
+                </span>
+            </div>
+
+            <div class="detail-row">
+                <strong>GPS</strong>
+                <span>
+                    <i class="fa @(Model.HasGps ? "fa fa-check text-success fa-lg" : "fa fa-times text-secondary fa-lg")"></i>
+                </span>
+            </div>
+
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                <div class="d-flex justify-content-end gap-2 mt-3">
+                    <a href="@Url.Action("Index", "Vehicles")" class="btn btn-secondary">Back</a>
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </div>
+            }
+        </div>
+    </div>
 </div>

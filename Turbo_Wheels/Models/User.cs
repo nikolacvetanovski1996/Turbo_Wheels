@@ -1,38 +1,46 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 
 namespace Turbo_Wheels.Models
 {
     public class User
     {
-        [Required]
-        public int userID { get; set; }
-        [Required]
+        [Key]
+        public int UserID { get; set; }
+
+        [Required(ErrorMessage = "Username is required.")]
+        [StringLength(100, ErrorMessage = "Username cannot exceed 100 characters.")]
         [Display(Name = "Username")]
-        public string username { get; set; }
-        [Required]
-        [Display(Name = "Password")]
+        public string Username { get; set; }
+
+        [Required(ErrorMessage = "Password is required.")]
         [DataType(DataType.Password)]
-        public string password { get; set; }
+        [Display(Name = "Password")]
+        public string Password { get; set; }
+
         [Display(Name = "Admin")]
-        public bool isAdmin { get; set; }
-        [Required]
+        public bool IsAdmin { get; set; }
+
+        [Required(ErrorMessage = "First name is required.")]
         [Display(Name = "First Name")]
-        public string firstName { get; set; }
+        public string FirstName { get; set; }
+
+        [Required(ErrorMessage = "Last name is required.")]
         [Display(Name = "Last Name")]
-        [Required]
-        public string lastName { get; set; }
+        public string LastName { get; set; }
+
+        [Required(ErrorMessage = "Email address is required.")]
+        [EmailAddress(ErrorMessage = "Invalid email address format.")]
         [Display(Name = "Email Address")]
-        [Required]
-        public string email { get; set; }
+        public string Email { get; set; }
+
         [Display(Name = "Address")]
-        public string address { get; set; }
+        public string Address { get; set; }
+
         [Display(Name = "Phone Number")]
-        [DisplayFormat(DataFormatString = "{0:0##/###-###}")]
-        public int phone { get; set; }
-        public virtual List<Reservation> reservation { get; set; }
+        [Phone(ErrorMessage = "Invalid phone number format.")]
+        public string Phone { get; set; }
+
+        public virtual List<Reservation> Reservations { get; set; } = new List<Reservation>();
     }
 }

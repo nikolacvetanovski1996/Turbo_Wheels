@@ -2,96 +2,217 @@
     ViewBag.Title = "Home Page";
 }
 
-@model Turbo_Wheels.Models.ReservationVM1
+@model Turbo_Wheels.Models.ReservationInputViewModel
 
 <link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
-<script src="~/Scripts/jquery-3.3.1.js"></script>
-<script src="~/Scripts/jquery-ui-1.12.1.js"></script>
+<style>
+    .hero {
+        background-image: url("../images/jumbotron.jpg");
+        background-size: cover;
+        background-position: center bottom;
+        padding: 250px 0;
+        text-align: center;
+    }
+
+    .hero-title {
+        color: white;
+        font-size: 28px;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+
+    .hero select,
+    .hero input[type="text"] {
+        width: auto;
+    }
+
+    .hero-row {
+        margin-top: 20px;
+    }
+
+    .hero-actions {
+        margin-top: 30px;
+    }
+
+    .hero-control {
+        width: 220px !important;
+        min-width: 0;
+    }
+
+    .hr-main {
+        visibility: hidden;
+    }
+</style>
+
 <script type="text/javascript" src="~/Scripts/datejs.js"></script>
 <script type="text/javascript" src="~/Scripts/Date.min.js"></script>
 <script>
-    var date = new Date()
-    var date1 = new Date();
     $(function () {
-        $('#datepicker1').datepicker({
-            minDate: date,
-            dateFormat: 'dd.mm.yy',
-            onSelect: function () {
-                date1 = $(this).datepicker('getDate')
-                var date2 = date1.addDays(1)
-                $(function () {
-                    $('#datepicker2').datepicker({
-                        minDate: date2,
-                        dateFormat: 'dd.mm.yy',
-                        onSelect: function (dateText, inst) {
-                            $('#button').prop('disabled', false)
-                        }
-                    })
-                })
+        // Cache selectors
+        var pickupTimeSelect = $('#pickupTime');
+        var returnTimeSelect = $('#returnTime');
+        var pickupDateInput = $('#pickupDatepicker');
+        var returnDateInput = $('#returnDatepicker');
+        var submitButton = $('#button');
+
+        function enableAllReturnTimes() {
+            returnTimeSelect.find('option').prop('disabled', false);
+        }
+
+        function updateReturnTimeOptions() {
+            var pickupDate = $.datepicker.parseDate('yy-mm-dd', pickupDateInput.val());
+            var returnDate = $.datepicker.parseDate('yy-mm-dd', returnDateInput.val());
+            var pickupHour = parseInt(pickupTimeSelect.val().split(':')[0]);
+
+            if (returnDate.getTime() === pickupDate.getTime()) {
+                // Same day - disable returnTime options <= pickupTime
+                returnTimeSelect.find('option').each(function () {
+                    var optionHour = parseInt($(this).val().split(':')[0]);
+                    if (optionHour <= pickupHour) {
+                        $(this).prop('disabled', true);
+                    } else {
+                        $(this).prop('disabled', false);
+                    }
+                });
+            } else {
+                // Different day - enable all options
+                enableAllReturnTimes();
             }
-        })
-    })
+
+            // Fix selected value if disabled
+            if (returnTimeSelect.find('option:selected').prop('disabled')) {
+                var firstEnabled = returnTimeSelect.find('option:not(:disabled)').first().val();
+                returnTimeSelect.val(firstEnabled);
+            }
+        }
+
+        function enableSubmitIfValid() {
+            var pickupDateVal = pickupDateInput.val();
+            var returnDateVal = returnDateInput.val();
+            var returnTimeVal = returnTimeSelect.val();
+
+            if (pickupDateVal && returnDateVal && returnTimeVal) {
+                submitButton.prop('disabled', false);
+            } else {
+                submitButton.prop('disabled', true);
+            }
+        }
+
+        var date = new Date();
+
+        $('#pickupDatepicker').datepicker({
+            minDate: date,
+            dateFormat: 'yy-mm-dd',
+            onSelect: function () {
+                var date1 = $(this).datepicker('getDate');
+                var date2 = new Date(date1.getTime());
+                date2.setDate(date2.getDate() + 1);
+                $('#returnDatepicker').datepicker('option', 'minDate', date2);
+                $('#returnDatepicker').datepicker('setDate', date2);
+
+                updateReturnTimeOptions();
+                enableSubmitIfValid();
+            }
+        });
+
+        $('#returnDatepicker').datepicker({
+            minDate: new Date(date.getTime() + 24 * 60 * 60 * 1000), // tomorrow
+            dateFormat: 'yy-mm-dd',
+            onSelect: function () {
+                updateReturnTimeOptions();
+                enableSubmitIfValid();
+            }
+        });
+
+        // Bind update to time selects
+        pickupTimeSelect.on('change', function () {
+            updateReturnTimeOptions();
+            enableSubmitIfValid();
+        });
+
+        returnTimeSelect.on('change', enableSubmitIfValid);
+
+        // Initial calls on page load
+        updateReturnTimeOptions();
+        enableSubmitIfValid();
+    });
+
 </script>
 
 @using (Html.BeginForm())
 {
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-    <div class="jumbotron" style="background-image: url(../../images/jumbotron.jpg); background-size: cover !important; background-position-x:center; background-position-y:bottom;">
-        
-        <div style="text-align:center !important; vertical-align:middle !important; padding-top:250px; padding-bottom:250px">
+    <section class="hero">
+        <div class="container">
 
-            <div style="font-size: 30px !important">
-                Want to rent a car in Skopje? This is the right place to be! Just fill the form below!
+            <div class="hero-title">
+                Want to rent a car in Skopje?
+                This is the right place to be! Just fill the form below!
             </div>
-            <div style="padding-top: 20px">
-                <select style="height:29px; width:185px" id="pickupPlace"  name="pickupPlace">
+
+            <div class="hero-row d-flex justify-content-center flex-wrap">
+                <select class="form-select hero-control mb-2 mx-2"
+                        id="pickupPlace"
+                        name="PickupPlace">
                     <option>Skopje Airport</option>
                     <option>Karposh 2 Office</option>
                     <option>Kisela Voda Office</option>
                 </select>
-                <input type="text" readonly value="@DateTime.Today.ToShortDateString()" id="datepicker1" name="pickupDate"/>
-                <select style="height:29px; width:185px" id="pickupTime" name="pickupTime">
+
+                <input class="form-control hero-control mb-2 mx-2"
+                       type="text"
+                       id="pickupDatepicker"
+                       name="PickupDate"
+                       readonly
+                       value="@DateTime.Today.ToString("yyyy-MM-dd")" />
+
+                <select class="form-select hero-control mb-2 mx-2"
+                        id="pickupTime"
+                        name="PickupTime">
                     @for (int i = 0; i < 24; i++)
                     {
-                        if (i == 10)
-                        {
-                            <option selected="selected">@i.ToString("00"):00</option>
-                        }
-                        else
-                        {
-                            <option>@i.ToString("00"):00</option>
-                        }
+                        var timeVal = i.ToString("00") + ":00";
+                        <option value="@timeVal" @(i == 10 ? "selected" : "")>@timeVal</option>
                     }
                 </select>
             </div>
 
-            <div style="padding-top: 20px">
-                <select style="height:29px; width:185px" id="returnPlace" name="returnPlace">
+            <div class="hero-row d-flex justify-content-center flex-wrap">
+                <select class="form-select hero-control mb-2 mx-2"
+                        id="returnPlace"
+                        name="ReturnPlace">
                     <option>Skopje Airport</option>
                     <option>Karposh 2 Office</option>
                     <option>Kisela Voda Office</option>
                 </select>
-                <input readonly type="text" value="@DateTime.Today.AddDays(1).ToShortDateString()" id="datepicker2" name="returnDate" />
-                <select style="height:29px; width:185px" id="returnTime" name="returnTime">
+
+                <input class="form-control hero-control mb-2 mx-2"
+                       type="text"
+                       id="returnDatepicker"
+                       name="ReturnDate"
+                       readonly
+                       value="@DateTime.Today.AddDays(1).ToString("yyyy-MM-dd")" />
+
+                <select class="form-select hero-control mb-2 mx-2"
+                        id="returnTime"
+                        name="ReturnTime">
                     @for (int i = 0; i < 24; i++)
                     {
-                        if (i == 15)
-                        {
-                            <option selected="selected">@i.ToString("00"):00</option>
-                        }
-                        else
-                        {
-                            <option>@i.ToString("00"):00</option>
-                        }
+                        var timeVal = i.ToString("00") + ":00";
+                        <option value="@timeVal" @(i == 15 ? "selected" : "")>@timeVal</option>
                     }
                 </select>
             </div>
 
-            <div style="padding-top:30px">
-                <input disabled type="submit" value="Search" id="button" style="padding-left:35px; padding-right:35px" class="btn btn-success" />
+            <div class="hero-actions">
+                <input class="btn btn-success px-4"
+                       type="submit"
+                       id="button"
+                       value="Search"
+                       disabled />
             </div>
 
         </div>
-
-    </div>
+    </section>
 }

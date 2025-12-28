@@ -1,64 +1,75 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
+using Turbo_Wheels.Filters;
 using Turbo_Wheels.Models;
 
 namespace Turbo_Wheels.Controllers
 {
+    [RequireLogin]
+    [RequireAdmin]
     public class ReservationsController : Controller
     {
         private Turbo_WheelsContext db = new Turbo_WheelsContext();
 
-        // GET: Reservations
         public ActionResult Index()
         {
-            var reservations = db.Reservations.Include(r => r.user).Include(r => r.vehicle);
+            var reservations = db.Reservations.Include(r => r.User).Include(r => r.Vehicle);
             return View(reservations.ToList());
         }
 
-        // GET: Reservations/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var reservations = db.Reservations.Include(r => r.user).Include(r => r.vehicle).ToList();
-            Reservation reservation = reservations.Find(r => r.ReservationID == id);
+
+            var reservation = db.Reservations
+                                .Include(r => r.User)
+                                .Include(r => r.Vehicle)
+                                .SingleOrDefault(r => r.ReservationID == id);
+
             if (reservation == null)
             {
                 return HttpNotFound();
             }
+
             return View(reservation);
         }
 
-        // GET: Reservations/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var reservations = db.Reservations.Include(r => r.user).Include(r => r.vehicle).ToList();
-            Reservation reservation = reservations.Find(r => r.ReservationID == id);
+
+            var reservation = db.Reservations
+                               .Include(r => r.User)
+                               .Include(r => r.Vehicle)
+                               .SingleOrDefault(r => r.ReservationID == id);
+
             if (reservation == null)
             {
                 return HttpNotFound();
             }
+
             return View(reservation);
         }
 
-        // POST: Reservations/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult Delete(int id)
         {
             Reservation reservation = db.Reservations.Find(id);
+
+            if (reservation == null)
+            {
+                return HttpNotFound();
+            }
+
             db.Reservations.Remove(reservation);
             db.SaveChanges();
             return RedirectToAction("Index");

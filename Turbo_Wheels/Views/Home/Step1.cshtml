@@ -4,133 +4,172 @@
     ViewBag.Title = "Step1";
 }
 
-<div class="container">
-    <h2>Choose vehicle</h2>
+<style>
+    .vehicles-table-wrapper {
+        max-width: 1200px;
+        margin: 1.5rem auto;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 6px 18px rgba(21, 24, 30, 0.08);
+        padding: 1rem 1.5rem;
+    }
 
-    <table class="table">
-        @if (Model.Count() != 0)
+    .table-responsive-wrapper {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    table.vehicles-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0 0.5rem;
+        font-size: 0.95rem;
+    }
+
+    table.vehicles-table th,
+    table.vehicles-table td {
+        padding: 0.6rem 0.8rem;
+        vertical-align: middle;
+        background: #fefefe;
+        border-radius: 8px;
+    }
+
+    table.vehicles-table th {
+        background: transparent;
+        font-weight: 700;
+        color: #444;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    table.vehicles-table tbody tr:hover td {
+        background: #f8f9fa;
+    }
+
+    .vehicles-table tbody tr {
+        cursor: pointer;
+        transition: background-color 0.2s ease-in-out;
+    }
+
+    .vehicles-table tbody tr:hover {
+        background-color: #f1f3f5;
+    }
+
+    td {
+        max-width: 220px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .vehicle-image-thumb {
+        width: 120px;
+        height: 80px;
+        object-fit: cover;
+        border-radius: 8px;
+        display: block;
+        margin: auto;
+    }
+
+    .feature-icon {
+        font-size: 1.15rem;
+        width: 26px;
+        text-align: center;
+    }
+
+    .feature-icon.present {
+        color: #28a745;
+    }
+
+    .feature-icon.absent {
+        color: #6c757d;
+    }
+
+    .back-btn-wrapper {
+        text-align: left;
+        margin-bottom: 1rem;
+    }
+</style>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.vehicles-table tbody tr').forEach(function (row) {
+            row.addEventListener('click', function () {
+                var url = this.getAttribute('data-vehicle-url');
+                if (url) {
+                    window.location.href = url;
+                }
+            });
+        });
+    });
+</script>
+
+<div class="vehicles-table-wrapper">
+    <h2 class="text-center mb-4">Step 1 - Choose a vehicle</h2>
+
+    <div class="back-btn-wrapper">
+        <a href="@Url.Action("Index", "Home")" class="btn btn-secondary">
+            Back to Home
+        </a>
+    </div>
+
+    <div class="table-responsive-wrapper">
+        @if (Model != null && Model.Any())
         {
-            <tr>
-                <th>
-                    Type
-                </th>
-                <th>
-                    Brand
-                </th>
-                <th>
-                    Model
-                </th>
-                <th>
-                    Fuel
-                </th>
-                <th>
-                    Transmission
-                </th>
-                <th>
-                    Price per day
-                </th>
-                <th>
-                    Doors
-                </th>
-                <th>
-                    Seats
-                </th>
-                <th>
-                    Airbag
-                </th>
-                <th>
-                    ABS
-                </th>
-                <th>
-                    ESP
-                </th>
-                <th>
-                    GPS
-                </th>
-                <th>
-                    Photo
-                </th>
-                <th></th>
-            </tr>
+            <table class="vehicles-table">
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Brand</th>
+                        <th>Model</th>
+                        <th>Fuel</th>
+                        <th>Transmission</th>
+                        <th>Price/Day</th>
+                        <th>Doors</th>
+                        <th>Seats</th>
+                        <th title="Airbag">Airbag</th>
+                        <th title="ABS">ABS</th>
+                        <th title="ESP">ESP</th>
+                        <th title="GPS">GPS</th>
+                        <th>Image</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var vehicle in Model)
+                    {
+                        <tr title="Choose vehicle" data-vehicle-url="@Url.Action("Step2", "Home", new { id = vehicle.VehicleID })">
+                            <td>@vehicle.Type</td>
+                            <td>@vehicle.Brand</td>
+                            <td>@vehicle.Model</td>
+                            <td>@vehicle.Fuel</td>
+                            <td>@vehicle.Transmission</td>
+                            <td>@vehicle.PricePerDay</td>
+                            <td>@vehicle.Doors</td>
+                            <td>@vehicle.Seats</td>
+
+                            <td class="feature-icon @(vehicle.HasAirbag ? "present" : "absent")">
+                                <i class="fa @(vehicle.HasAirbag ? "fa-check" : "fa-times")"></i>
+                            </td>
+                            <td class="feature-icon @(vehicle.HasAbs ? "present" : "absent")">
+                                <i class="fa @(vehicle.HasAbs ? "fa-check" : "fa-times")"></i>
+                            </td>
+                            <td class="feature-icon @(vehicle.HasEsp ? "present" : "absent")">
+                                <i class="fa @(vehicle.HasEsp ? "fa-check" : "fa-times")"></i>
+                            </td>
+                            <td class="feature-icon @(vehicle.HasGps ? "present" : "absent")">
+                                <i class="fa @(vehicle.HasGps ? "fa-check" : "fa-times")"></i>
+                            </td>
+
+                            <td>
+                                <img src="@Url.Content("~/images/vehicle_images/" + vehicle.ImageURL)" alt="Image of @vehicle.Brand @vehicle.Model" class="vehicle-image-thumb" />
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         }
-        @foreach (var item in Model)
+        else
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.type)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.brand)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.model)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.fuel)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.transmission)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.price_per_day)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.doors)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.seats)
-                </td>
-                <td>
-                    @{ if (item.has_airbag)
-                        {
-                            <span>Yes</span>
-                        }
-                        else
-                        {
-                            <span>No</span>
-                        }
-                    }
-                </td>
-                <td>
-                    @{ if (item.has_ABS)
-                        {
-                            <span>Yes</span>
-                        }
-                        else
-                        {
-                            <span>No</span>
-                        }
-                    }
-                </td>
-                <td>
-                    @{ if (item.has_ESP)
-                        {
-                            <span>Yes</span>
-                        }
-                        else
-                        {
-                            <span>No</span>
-                        }
-                    }
-                </td>
-                <td>
-                    @{ if (item.has_GPS)
-                        {
-                            <span>Yes</span>
-                        }
-                        else
-                        {
-                            <span>No</span>
-                        }
-                    }
-                </td>
-                <td>
-                    <a href="~/Home/Step2/@item.vehicleID">
-                        <img src="@Url.Content("~/images/vehicle_images/"+item.imageURL)" width="150" />
-                    </a>
-                </td>
-            </tr>
+            <p>No vehicles found.</p>
         }
-    </table>
-    <hr style="border-width: 5px" />
+    </div>
 </div>
