@@ -35,8 +35,14 @@
                 color: rgba(255, 255, 255, 0.55);
             }
 
-            .navbar-dark .navbar-brand:hover {
-                color: rgba(255, 255, 255, 0.75);
+                .navbar-dark .navbar-brand:hover {
+                    color: rgba(255, 255, 255, 0.75);
+                }
+
+            @@media (min-width: 577px) {
+                .nav-item-logout-mobile {
+                    display: none;
+                }
             }
 
             @@media (max-width: 576px) {
@@ -48,9 +54,9 @@
                     margin-bottom: 25px;
                 }
 
-                .footer-links-column:last-child {
-                    margin-bottom: 0;
-                }
+                    .footer-links-column:last-child {
+                        margin-bottom: 0;
+                    }
             }
 
             iframe {
@@ -120,7 +126,7 @@
                         }
 
                         <!-- LOGOUT (mobile only) -->
-                        <li class="nav-item">
+                        <li class="nav-item nav-item-logout-mobile">
                             <a class="nav-link" href="@Url.Action("Logout", "Home")">Log out</a>
                         </li>
                     </ul>
@@ -186,14 +192,13 @@
                         Site Links
                         <hr />
                     </div>
-                    @if (isAdmin == true)
+                    @if (isAdmin)
                     {
                         <span>&gt;</span> <a href="~/Users/Index">Users</a> <br />
                         <span>&gt;</span> <a href="~/Vehicles/Index">Vehicles</a> <br />
                         <span>&gt;</span> <a href="~/Reservations/Index">Reservations</a> <br />
                     }
-                    @if (isAdmin == false)
-                    {
+                    else {  
                         <span>&gt;</span> <a href="~/Home/Index">Home</a> <br />
                         <span>&gt;</span> <a href="~/Home/About">About Us</a> <br />
                     }
