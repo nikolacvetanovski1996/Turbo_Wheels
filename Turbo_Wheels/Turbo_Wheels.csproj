@@ -303,6 +303,7 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\Date.min.js" />
     <Content Include="Scripts\datejs.js" />
+    <Content Include="images\vehicle_images\.gitkeep" />
     <None Include="Scripts\jquery-3.7.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.1.js" />
     <Content Include="Scripts\jquery-3.7.1.min.js" />
@@ -348,10 +349,10 @@
     <Content Include="Views\Shared\Unauthorized.cshtml" />
     <Content Include="Views\Home\Register.cshtml" />
     <Content Include="Views\Vehicles\Edit.cshtml" />
+    <Content Include="Views\Shared\_AuthLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="images\vehicle_images\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />

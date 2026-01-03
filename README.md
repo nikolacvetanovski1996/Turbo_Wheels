@@ -18,7 +18,7 @@ A straightforward car rental management web app built with ASP.NET MVC and Entit
 - ASP.NET MVC 5  
 - Entity Framework 6 (Code First)  
 - SQL Server LocalDB  
-- Bootstrap 5 for responsive UI  
+- Bootstrap 5 for responsive, mobile-friendly UI
 
 ## Setup Instructions
 
@@ -31,5 +31,7 @@ A straightforward car rental management web app built with ASP.NET MVC and Entit
 ## Notes
 
 - Basic error handling in place (default MVC error pages).  
-- Seed admin user added on first run.  
+- Seed admin user added on first run:
+  - **Username:** admin  
+  - **Password:** admin123  
 - Uses cookie/session for simple authentication.  

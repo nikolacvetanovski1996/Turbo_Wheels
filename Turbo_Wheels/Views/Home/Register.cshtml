@@ -2,22 +2,15 @@
 
 @{
     ViewBag.Title = "Register";
-    Layout = null;
+    Layout = "~/Views/Shared/_AuthLayout.cshtml";
 }
 
-<link href="~/Content/font-awesome.min.css" rel="stylesheet" />
 <style>
     .register-card {
         max-width: 480px;
         width: 100%;
     }
 </style>
-
-@Styles.Render("~/Content/css")
-@Scripts.Render("~/bundles/modernizr")
-@Scripts.Render("~/bundles/jquery")
-@Scripts.Render("~/bundles/bootstrap")
-@Scripts.Render("~/bundles/jqueryui")
 
 <div class="d-flex justify-content-center align-items-center vh-100 bg-light px-3">
     <div class="d-flex bg-white rounded shadow register-card">
