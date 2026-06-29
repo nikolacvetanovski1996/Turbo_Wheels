@@ -1,0 +1,51 @@
+﻿@{
+    ViewBag.Title = "NotFound";
+    string containerHeightClass = "";
+
+    if (Session["user"] != null)
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_AuthLayout.cshtml";
+        containerHeightClass = "vh-100";
+    }
+}
+
+<style>
+    .not-found-card {
+        max-width: 480px;
+        width: 100%;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 6px 18px rgba(21, 24, 30, 0.08);
+        padding: 1.5rem;
+    }
+
+    a {
+        font-size: 21px;
+    }
+</style>
+
+<div class="d-flex justify-content-center align-items-center @containerHeightClass bg-light px-3 py-4">
+    <div class="d-flex bg-white rounded shadow auth-card not-found-card">
+        <div class="p-4 w-100 text-center">
+            <h1 class="display-4 fw-bold mb-4">404</h1>
+
+            <h3 class="fw-bold mb-4">Page Not Found</h3>
+
+            <p class="lead">
+                The page you're looking for could not be found.
+            </p>
+            <hr />
+            <p>
+                It may have been moved, deleted, or you may have entered an incorrect URL.
+            </p>
+
+            <a href="@Url.Action("Index", "Home")" class="btn btn-primary mt-4">
+                Return to Home
+            </a>
+        </div>
+    </div>
+</div>

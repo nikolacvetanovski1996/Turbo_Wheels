@@ -32,10 +32,12 @@ namespace Turbo_Wheels.Filters
             // Check if user is admin
             if (!user.IsAdmin)
             {
-                filterContext.Result = new ViewResult
-                {
-                    ViewName = "~/Views/Shared/Unauthorized.cshtml"
-                };
+                filterContext.Result = new RedirectToRouteResult(
+                    new RouteValueDictionary
+                    {
+                        { "controller", "Error" },
+                        { "action", "Forbidden" }
+                    });
                 return;
             }
 

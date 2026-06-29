@@ -1,0 +1,51 @@
+﻿@{
+    ViewBag.Title = "Forbidden";
+    string containerHeightClass = "";
+
+    if (Session["user"] != null)
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_AuthLayout.cshtml";
+        containerHeightClass = "vh-100";
+    }
+}
+
+<style>
+    .forbidden-card {
+        max-width: 480px;
+        width: 100%;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 6px 18px rgba(21, 24, 30, 0.08);
+        padding: 1.5rem;
+    }
+
+    a {
+        font-size: 21px;
+    }
+</style>
+
+<div class="d-flex justify-content-center align-items-center @containerHeightClass bg-light px-3 py-4">
+    <div class="d-flex bg-white rounded shadow forbidden-card">
+        <div class="p-4 w-100 text-center">
+            <h1 class="display-4 fw-bold mb-4">403</h1>
+
+            <h3 class="fw-bold mb-4">Forbidden</h3>
+
+            <p class="lead">
+                You do not have permission to access this page.
+            </p>
+            <hr />
+            <p>
+                If you believe this is a mistake, please contact the administrator.
+            </p>
+
+            <a href="@Url.Action("Index", "Home")" class="btn btn-primary mt-4">
+                Return to Home
+            </a>
+        </div>
+    </div>
+</div>

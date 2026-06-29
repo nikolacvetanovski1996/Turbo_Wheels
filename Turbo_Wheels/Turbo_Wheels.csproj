@@ -203,6 +203,7 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HealthController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ReservationsController.cs" />
@@ -347,10 +348,12 @@
     <Content Include="Views\Home\Step2.cshtml" />
     <Content Include="Views\Home\Final.cshtml" />
     <AdditionalFiles Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Shared\Unauthorized.cshtml" />
+    <Content Include="Views\Shared\Forbidden.cshtml" />
     <Content Include="Views\Home\Register.cshtml" />
     <Content Include="Views\Vehicles\Edit.cshtml" />
     <Content Include="Views\Shared\_AuthLayout.cshtml" />
+    <Content Include="Views\Shared\NotFound.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
