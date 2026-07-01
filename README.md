@@ -29,7 +29,7 @@ A car rental management web application built with ASP.NET MVC 5 and Entity Fram
 ## Setup Instructions
 
 1. Clone the repository.
-2. Update the connection string in `web.config` to point to your local SQL Server instance.
+2. Update the connection string in `Web.config` to point to your local SQL Server instance.
 3. In Visual Studio, **perform a Clean Solution** (Build > Clean Solution). This step resolves any package or compiler file issues without manual NuGet restore.  
 4. Build and run the project in Visual Studio (2019 or later).
 5. The database will be created automatically on first run (if it doesn't already exist).
