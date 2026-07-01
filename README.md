@@ -54,14 +54,16 @@ If the problem persists after cleaning and rebuilding, double-check that all NuG
 
 - Custom 403, 404, and 500 error pages.
 - Passwords are securely hashed before storage.
-- A default administrator account is seeded on first run if no administrator exists:
-  - **Username:** admin
-  - **Password:** admin123
+- A default administrator account is automatically seeded on first run if no administrator exists:
+  - By default:
+    - **Username:** admin
+    - **Password:** admin123
+  - These values are configurable via `Web.config`.
 - Uses cookie- and session-based authentication.
 
 ## Admin Demo
 
-The administrative interface is intentionally not publicly accessible.
+The administrative interface is intentionally not publicly available.
 
 For serious evaluation, temporary administrator access can be provided by:
 
