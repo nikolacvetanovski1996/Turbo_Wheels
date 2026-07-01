@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Configuration;
+using System.Linq;
 using System.Web.Helpers;
 using Turbo_Wheels.Models;
 
@@ -14,13 +15,25 @@ namespace Turbo_Wheels.App_Start
                 if (db.Users.Any(u => u.IsAdmin))
                     return;
 
+                var username = ConfigurationManager.AppSettings["DefaultAdminUsername"];
+                var password = ConfigurationManager.AppSettings["DefaultAdminPassword"];
+                var email = ConfigurationManager.AppSettings["DefaultAdminEmail"];
+
+                if (string.IsNullOrWhiteSpace(username) ||
+                    string.IsNullOrWhiteSpace(password) ||
+                    string.IsNullOrWhiteSpace(email))
+                {
+                    throw new ConfigurationErrorsException(
+                        "Default administrator credentials are missing from Web.config.");
+                }
+
                 var admin = new User
                 {
-                    Username = "admin",
-                    Password = Crypto.HashPassword("admin123"),
+                    Username = username,
+                    Password = Crypto.HashPassword(password),
                     FirstName = "System",
                     LastName = "Administrator",
-                    Email = "admin@example.com",
+                    Email = email,
                     IsAdmin = true
                 };
 
