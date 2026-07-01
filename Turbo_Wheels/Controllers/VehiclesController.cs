@@ -13,7 +13,7 @@ namespace Turbo_Wheels.Controllers
     public class VehiclesController : Controller
     {
         private Turbo_WheelsContext db = new Turbo_WheelsContext();
-        private string ImageFolder => Server.MapPath("~/images/vehicle_images/");
+        private const string ImageFolderVirtualPath = "~/images/vehicle_images/";
 
 
         public ActionResult Index()
@@ -53,11 +53,11 @@ namespace Turbo_Wheels.Controllers
 
             if (ModelState.IsValid)
             {
+                // Save file with unique filename
                 var ext = Path.GetExtension(vehicle.ImageFile.FileName);
-                var url = $"{Guid.NewGuid():N}_{vehicle.Brand}_{vehicle.Model}{ext}";
-                vehicle.ImageURL = url;
-
-                SaveImage(vehicle.ImageFile, url);
+                var fileName = GenerateImageFileName(vehicle, ext);
+                vehicle.ImageURL = fileName;
+                SaveImage(vehicle.ImageFile, fileName);
 
                 db.Vehicles.Add(vehicle);
                 db.SaveChanges();
@@ -107,14 +107,13 @@ namespace Turbo_Wheels.Controllers
                 // Handle image file upload if provided
                 if (vehicle.ImageFile != null && vehicle.ImageFile.ContentLength > 0)
                 {
-                     DeleteImage(existingVehicle.ImageURL);
+                    DeleteImage(existingVehicle.ImageURL);
 
                     // Save new file with unique filename
                     var ext = Path.GetExtension(vehicle.ImageFile.FileName);
-                    var url = $"{Guid.NewGuid():N}_{vehicle.Brand}_{vehicle.Model}{ext}";
-                    existingVehicle.ImageURL = url;
-
-                    SaveImage(vehicle.ImageFile, url);
+                    var fileName = GenerateImageFileName(vehicle, ext);
+                    existingVehicle.ImageURL = fileName;
+                    SaveImage(vehicle.ImageFile, fileName);
                 }
 
                 db.SaveChanges();
@@ -160,12 +159,20 @@ namespace Turbo_Wheels.Controllers
             return RedirectToAction("Index");
         }
 
+        private string GenerateImageFileName(Vehicle vehicle, string extension)
+        {
+            var brand = string.Concat(vehicle.Brand.Split(Path.GetInvalidFileNameChars())).Replace(" ", "-");
+            var model = string.Concat(vehicle.Model.Split(Path.GetInvalidFileNameChars())).Replace(" ", "-");
+
+            return $"{Guid.NewGuid():N}_{brand}_{model}{extension}";
+        }
+
         private void SaveImage(System.Web.HttpPostedFileBase file, string fileName)
         {
             if (file == null || string.IsNullOrEmpty(fileName))
                 return;
 
-            var path = Path.Combine(ImageFolder, fileName);
+            var path = Path.Combine(Server.MapPath(ImageFolderVirtualPath), fileName);
             file.SaveAs(path);
         }
 
@@ -174,14 +181,17 @@ namespace Turbo_Wheels.Controllers
             if (string.IsNullOrEmpty(fileName))
                 return;
 
-            var path = Path.Combine(ImageFolder, fileName);
+            var path = Path.Combine(Server.MapPath(ImageFolderVirtualPath), fileName);
             if (System.IO.File.Exists(path))
             {
                 try
                 {
                     System.IO.File.Delete(path);
                 }
-                catch { }
+                catch (IOException)
+                {
+                    // Ignore if the file is locked or cannot be deleted.
+                }
             }
 
         }

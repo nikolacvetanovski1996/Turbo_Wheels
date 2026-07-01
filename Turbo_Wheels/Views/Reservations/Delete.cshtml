@@ -1,4 +1,5 @@
 ﻿@model Turbo_Wheels.Models.Reservation
+@using Turbo_Wheels.Extensions
 
 @{
     ViewBag.Title = "Delete reservation";
@@ -24,19 +25,19 @@
         border-bottom: 1px solid #eee;
     }
 
-    .detail-row:last-child {
-        border-bottom: none;
-    }
+        .detail-row:last-child {
+            border-bottom: none;
+        }
 
-    .detail-row strong {
-        flex: 0 0 140px;
-        font-weight: 600;
-    }
+        .detail-row strong {
+            flex: 0 0 140px;
+            font-weight: 600;
+        }
 
-    .detail-row span {
-        flex: 1;
-        text-align: right;
-    }
+        .detail-row span {
+            flex: 1;
+            text-align: right;
+        }
 </style>
 
 <div class="d-flex justify-content-center align-items-center bg-light px-3 py-4">
@@ -66,7 +67,7 @@
 
             <div class="detail-row">
                 <strong>Pickup place</strong>
-                <span>@Model.PickupPlace</span>
+                <span>@Model.PickupPlace.GetDisplayName()</span>
             </div>
 
 
@@ -77,7 +78,7 @@
 
             <div class="detail-row">
                 <strong>Return place</strong>
-                <span>@Model.ReturnPlace</span>
+                <span>@Model.ReturnPlace.GetDisplayName()</span>
             </div>
 
             <div class="detail-row">
@@ -86,19 +87,27 @@
             </div>
 
             <div class="detail-row">
-                <strong>Credit card owner</strong>
-                <span>@Model.CreditCardOwner</span>
+                <strong>Payment method</strong>
+                <span>@Model.PaymentMethod.GetDisplayName()</span>
             </div>
 
-            <div class="detail-row">
-                <strong>Last 4 digits of the credit card</strong>
-                <span>****@Model.CreditCardLast4</span>
-            </div>
+            @if (Model.PaymentMethod == Turbo_Wheels.Models.PaymentMethod.CreditCard)
+            {
+                <div class="detail-row">
+                    <strong>Credit card owner</strong>
+                    <span>@Model.CreditCardOwner</span>
+                </div>
 
-            <div class="detail-row">
-                <strong>Credit card expiration date</strong>
-                <span>@Model.CreditCardExpiryDate</span>
-            </div>
+                <div class="detail-row">
+                    <strong>Last 4 digits of the credit card</strong>
+                    <span>****@Model.CreditCardLast4</span>
+                </div>
+
+                <div class="detail-row">
+                    <strong>Credit card expiration date</strong>
+                    <span>@Model.CreditCardExpiryDate</span>
+                </div>
+            }
 
             @using (Html.BeginForm())
             {

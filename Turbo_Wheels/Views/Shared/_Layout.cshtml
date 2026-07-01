@@ -1,6 +1,6 @@
 ﻿@{
-    var isAdminCookie = Request.Cookies["isAdmin"];
-    var nameCookie = Request.Cookies["nameSurname"];
+    var isAdminCookie = Request.Cookies["IsAdmin"];
+    var nameCookie = Request.Cookies["NameSurname"];
 
     bool isAdmin = false;
     string nameSurname = "";
@@ -75,6 +75,19 @@
 
             .full-width {
                 width: 100%;
+            }
+
+            /* Remove bullets from validation summary error messages */
+            .validation-summary-errors ul,
+            .validation-summary-valid ul {
+                list-style: none;
+                padding-left: 0;
+                margin-bottom: 0;
+            }
+
+            .validation-summary-errors li,
+            .validation-summary-valid li {
+                margin-bottom: .25rem;
             }
         </style>
     </head>

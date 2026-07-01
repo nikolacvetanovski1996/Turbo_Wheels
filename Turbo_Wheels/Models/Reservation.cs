@@ -3,50 +3,69 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Turbo_Wheels.Models
 {
+    public enum OfficeLocation
+    {
+        [Display(Name = "Skopje airport")]
+        SkopjeAirport,
+
+        [Display(Name = "Karposh 2 office")]
+        Karposh2Office,
+
+        [Display(Name = "Kisela Voda office")]
+        KiselaVodaOffice
+    }
+
+    public enum PaymentMethod
+    {
+        [Display(Name = "Credit card")]
+        CreditCard,
+
+        [Display(Name = "Pay on pickup")]
+        PayOnPickup
+    }
+
     public class Reservation
     {
         [Key]
         public int ReservationID { get; set; }
 
-        [Required]
         [Display(Name = "Date and time of taking")]
         public DateTime PickupDateTime { get; set; }
-
-        [Required]
+        
         [Display(Name = "Place of taking")]
-        public string PickupPlace { get; set; }
+        public OfficeLocation PickupPlace { get; set; }
 
-        [Required]
         [Display(Name = "Date and time of return")]
         public DateTime ReturnDateTime { get; set; }
 
-        [Required]
         [Display(Name = "Place of return")]
-        public string ReturnPlace { get; set; }
+        public OfficeLocation ReturnPlace { get; set; }
 
-        [Required]
+        [Range(1, int.MaxValue)]
         [Display(Name = "Total price in MKD denars")]
         public int TotalPrice { get; set; }
 
-        [Required]
-        [Display(Name = "Name of Credit Card owner")]
+        [Display(Name = "Payment method")]
+        public PaymentMethod PaymentMethod { get; set; }
+
+        [StringLength(100)]
+        [Display(Name = "Name of credit card owner")]
         public string CreditCardOwner { get; set; }
 
-        [Required]
         [StringLength(4, MinimumLength = 4)]
-        [Display(Name = "Last 4 digits of the Credit Card Number")]
+        [RegularExpression(@"^\d{4}$")]
+        [Display(Name = "Last 4 digits of the credit card number")]
         public string CreditCardLast4 { get; set; }
 
-        [Required]
-        [Display(Name = "Credit Card Expiry Date")]
+        [StringLength(5)]
+        [RegularExpression(@"^(0[1-9]|1[0-2])\/\d{2}$")]
+        [Display(Name = "Credit card expiry date")]
         public string CreditCardExpiryDate { get; set; }
 
-        [Required]
         public int VehicleID { get; set; }
 
         public Vehicle Vehicle { get; set; }
 
-        [Required]
         public int UserID { get; set; }
 
         public User User { get; set; }

@@ -90,7 +90,6 @@ namespace Turbo_Wheels.Controllers
                 return HttpNotFound();
 
             // Update fields (explicitly)
-            existingUser.Username = user.Username;
             existingUser.IsAdmin = user.IsAdmin;
             existingUser.FirstName = user.FirstName;
             existingUser.LastName = user.LastName;
@@ -122,6 +121,14 @@ namespace Turbo_Wheels.Controllers
                 return HttpNotFound();
             }
 
+            // Prevent self-deletion
+            var currentUser = (User)Session["User"];
+
+            if (currentUser != null && currentUser.UserID == user.UserID)
+            {
+                return RedirectToAction("Forbidden", "Error");
+            }
+
             return View(user);
         }
 
@@ -136,8 +143,17 @@ namespace Turbo_Wheels.Controllers
                 return HttpNotFound();
             }
 
+            // Prevent self-deletion
+            var currentUser = (User)Session["User"];
+
+            if (currentUser != null && currentUser.UserID == user.UserID)
+            {
+                return RedirectToAction("Forbidden", "Error");
+            }
+
             db.Users.Remove(user);
             db.SaveChanges();
+
             return RedirectToAction("Index");
         }
 

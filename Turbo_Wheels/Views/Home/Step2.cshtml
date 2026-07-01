@@ -23,27 +23,45 @@
     document.addEventListener('DOMContentLoaded', function () {
         const ccInput = document.getElementById('creditCardNumber');
 
-        ccInput.addEventListener('input', function (e) {
-            let value = e.target.value.replace(/\D/g, ''); // Remove all non-digits
-            let formatted = '';
+        if (ccInput) {
+            ccInput.addEventListener('input', function (e) {
+                let value = e.target.value.replace(/\D/g, ''); // Remove all non-digits
+                let formatted = '';
 
-            for (let i = 0; i < value.length; i++) {
-                if (i > 0 && i % 4 === 0) {
-                    formatted += ' ';
+                for (let i = 0; i < value.length; i++) {
+                    if (i > 0 && i % 4 === 0) {
+                        formatted += ' ';
+                    }
+                    formatted += value[i];
                 }
-                formatted += value[i];
-            }
 
-            e.target.value = formatted;
-        });
+                e.target.value = formatted;
+            });
+        }
+
+        toggleCreditCardSection();
+
+        document.getElementById('payByCard')
+            .addEventListener('change', toggleCreditCardSection);
+
+        document.getElementById('payOnPickup')
+            .addEventListener('change', toggleCreditCardSection);
     });
+
+    function toggleCreditCardSection() {
+        const payByCard = document.getElementById('payByCard');
+        const show = payByCard && payByCard.checked;
+
+        document.getElementById('creditCardSection').style.display =
+            show ? 'block' : 'none';
+    }
 </script>
 
 
 <div class="d-flex justify-content-center align-items-center bg-light px-3 py-4">
     <div class="d-flex bg-white rounded shadow step2-card">
         <div class="p-4 w-100">
-            <h2 class="text-center mb-4">Step 2 - Insert credit card information</h2>
+            <h2 class="text-center mb-4">Step 2 - Payment information</h2>
 
             @using (Html.BeginForm("Step2", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
             {
@@ -53,39 +71,62 @@
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
                 <div class="mb-3">
-                    @Html.LabelFor(model => model.CreditCardOwner)
-                    @Html.EditorFor(model => model.CreditCardOwner, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.CreditCardOwner, "", new { @class = "text-danger" })
-                </div>
+                    <label class="form-label fw-bold">Payment method</label>
 
-                <div class="mb-3">
-                    @Html.LabelFor(model => model.CreditCardNumber)
-                    @Html.EditorFor(model => model.CreditCardNumber, new { htmlAttributes = new { @class = "form-control", id = "creditCardNumber" } })
-                    @Html.ValidationMessageFor(model => model.CreditCardNumber, "", new { @class = "text-danger" })
-                </div>
-
-                <div class="mb-3">
-                    <label>Expiration Date</label>
-                    <div class="d-flex align-items-center gap-2">
-                        @Html.EditorFor(m => m.ExpireMonth, new { htmlAttributes = new { @class = "form-control expiry-input", min = "1", max = "12", placeholder = "MM" } })
-                        <span>/</span>
-                        @Html.EditorFor(m => m.ExpireYear, new { htmlAttributes = new { @class = "form-control expiry-input", min = (DateTime.UtcNow.Year) % 100, max = "99", placeholder = "YY" } })
+                    <div class="form-check">
+                        @Html.RadioButtonFor(m => m.PayOnPickup, false, new { id = "payByCard", @class = "form-check-input" })
+                        <label class="form-check-label" for="payByCard">
+                            Credit Card
+                        </label>
                     </div>
-                    <div class="mt-1">
-                        @Html.ValidationMessageFor(m => m.ExpireMonth, "", new { @class = "text-danger me-3" })
-                        @Html.ValidationMessageFor(m => m.ExpireYear, "", new { @class = "text-danger" })
+
+                    <div class="form-check">
+                        @Html.RadioButtonFor(m => m.PayOnPickup, true, new { id = "payOnPickup", @class = "form-check-input" })
+                        <label class="form-check-label" for="payOnPickup">
+                            Pay on Pickup
+                        </label>
                     </div>
+
+                    @Html.ValidationMessageFor(m => m.PayOnPickup, "", new { @class = "text-danger" })
                 </div>
 
-                <div class="mb-3">
-                    @Html.LabelFor(model => model.Cvc2Cvv2Number)
-                    @Html.PasswordFor(model => model.Cvc2Cvv2Number, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.Cvc2Cvv2Number, "", new { @class = "text-danger" })
+                <div id="creditCardSection">
+                    <div class="mb-3">
+                        @Html.LabelFor(model => model.CreditCardOwner)
+                        @Html.EditorFor(model => model.CreditCardOwner, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.CreditCardOwner, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="mb-3">
+                        @Html.LabelFor(model => model.CreditCardNumber)
+                        @Html.EditorFor(model => model.CreditCardNumber, new { htmlAttributes = new { @class = "form-control", id = "creditCardNumber" } })
+                        @Html.ValidationMessageFor(model => model.CreditCardNumber, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Expiration date</label>
+                        <div class="d-flex align-items-center gap-2">
+                            @Html.EditorFor(m => m.ExpireMonth, new { htmlAttributes = new { @class = "form-control expiry-input", min = "1", max = "12", placeholder = "MM" } })
+                            <span>/</span>
+                            @Html.EditorFor(m => m.ExpireYear, new { htmlAttributes = new { @class = "form-control expiry-input", min = (DateTime.UtcNow.Year) % 100, max = "99", placeholder = "YY" } })
+                        </div>
+                        <div class="mt-1">
+                            @Html.ValidationMessageFor(m => m.ExpireMonth, "", new { @class = "text-danger me-3" })
+                            @Html.ValidationMessageFor(m => m.ExpireYear, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        @Html.LabelFor(model => model.Cvc2Cvv2Number)
+                        @Html.PasswordFor(model => model.Cvc2Cvv2Number, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Cvc2Cvv2Number, "", new { @class = "text-danger" })
+                    </div>
                 </div>
+                    
 
                 <div class="d-flex justify-content-end gap-2 mt-3">
                     <a href="@Url.Action("Step1", "Home")" class="btn btn-secondary">Back</a>
-                    <button type="submit" class="btn btn-success">Finish reservation</button>
+                    <button type="submit" class="btn btn-success">Complete Reservation</button>
                 </div>
             }
         </div>

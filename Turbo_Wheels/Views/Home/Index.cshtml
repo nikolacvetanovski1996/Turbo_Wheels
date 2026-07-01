@@ -152,20 +152,23 @@
             </div>
 
             <div class="hero-row d-flex justify-content-center flex-wrap">
-                <select class="form-select hero-control mb-2 mx-2"
-                        id="pickupPlace"
-                        name="PickupPlace">
-                    <option>Skopje Airport</option>
-                    <option>Karposh 2 Office</option>
-                    <option>Kisela Voda Office</option>
-                </select>
+                @Html.EnumDropDownListFor(
+                    m => m.PickupPlace,
+                    new
+                    {
+                        @class = "form-select hero-control mb-2 mx-2",
+                        id = "pickupPlace"
+                    })
 
-                <input class="form-control hero-control mb-2 mx-2"
-                       type="text"
-                       id="pickupDatepicker"
-                       name="PickupDate"
-                       readonly
-                       value="@DateTime.Today.ToString("yyyy-MM-dd")" />
+                @Html.TextBoxFor(
+                    m => m.PickupDate,
+                    "{0:yyyy-MM-dd}",
+                    new
+                    {
+                        @class = "form-control hero-control mb-2 mx-2",
+                        id = "pickupDatepicker",
+                        @readonly = "readonly"
+                    })
 
                 <select class="form-select hero-control mb-2 mx-2"
                         id="pickupTime"
@@ -173,26 +176,33 @@
                     @for (int i = 0; i < 24; i++)
                     {
                         var timeVal = i.ToString("00") + ":00";
-                        <option value="@timeVal" @(i == 10 ? "selected" : "")>@timeVal</option>
+                        var time = TimeSpan.FromHours(i);
+
+                        <option value="@timeVal" @(Model.PickupTime == time ? "selected" : "")>
+                            @timeVal
+                        </option>
                     }
                 </select>
             </div>
 
             <div class="hero-row d-flex justify-content-center flex-wrap">
-                <select class="form-select hero-control mb-2 mx-2"
-                        id="returnPlace"
-                        name="ReturnPlace">
-                    <option>Skopje Airport</option>
-                    <option>Karposh 2 Office</option>
-                    <option>Kisela Voda Office</option>
-                </select>
+                @Html.EnumDropDownListFor(
+                    m => m.ReturnPlace,
+                    new
+                    {
+                        @class = "form-select hero-control mb-2 mx-2",
+                        id = "returnPlace"
+                    })
 
-                <input class="form-control hero-control mb-2 mx-2"
-                       type="text"
-                       id="returnDatepicker"
-                       name="ReturnDate"
-                       readonly
-                       value="@DateTime.Today.AddDays(1).ToString("yyyy-MM-dd")" />
+                @Html.TextBoxFor(
+                    m => m.ReturnDate,
+                    "{0:yyyy-MM-dd}",
+                    new
+                    {
+                        @class = "form-control hero-control mb-2 mx-2",
+                        id = "returnDatepicker",
+                        @readonly = "readonly"
+                    })
 
                 <select class="form-select hero-control mb-2 mx-2"
                         id="returnTime"
@@ -200,7 +210,11 @@
                     @for (int i = 0; i < 24; i++)
                     {
                         var timeVal = i.ToString("00") + ":00";
-                        <option value="@timeVal" @(i == 15 ? "selected" : "")>@timeVal</option>
+                        var time = TimeSpan.FromHours(i);
+
+                        <option value="@timeVal" @(Model.ReturnTime == time ? "selected" : "")>
+                            @timeVal
+                        </option>
                     }
                 </select>
             </div>

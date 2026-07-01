@@ -22,23 +22,28 @@ namespace Turbo_Wheels.Models
         public bool IsAdmin { get; set; }
 
         [Required(ErrorMessage = "First name is required.")]
-        [Display(Name = "First Name")]
+        [StringLength(50, ErrorMessage = "First name cannot exceed 50 characters.")]
+        [Display(Name = "First name")]
         public string FirstName { get; set; }
 
         [Required(ErrorMessage = "Last name is required.")]
-        [Display(Name = "Last Name")]
+        [StringLength(50, ErrorMessage = "Last name cannot exceed 50 characters.")]
+        [Display(Name = "Last name")]
         public string LastName { get; set; }
 
         [Required(ErrorMessage = "Email address is required.")]
+        [StringLength(100, ErrorMessage = "Email address cannot exceed 100 characters.")]
         [EmailAddress(ErrorMessage = "Invalid email address format.")]
-        [Display(Name = "Email Address")]
+        [Display(Name = "Email address")]
         public string Email { get; set; }
 
+        [StringLength(200, ErrorMessage = "Address cannot exceed 200 characters.")]
         [Display(Name = "Address")]
         public string Address { get; set; }
-
-        [Display(Name = "Phone Number")]
-        [Phone(ErrorMessage = "Invalid phone number format.")]
+        
+        [StringLength(20, ErrorMessage = "Phone number cannot exceed 20 characters.")]
+        [RegularExpression(@"^\+?[0-9\s()-]{8,20}$", ErrorMessage = "Invalid phone number format.")]
+        [Display(Name = "Phone number")]
         public string Phone { get; set; }
 
         public virtual List<Reservation> Reservations { get; set; } = new List<Reservation>();

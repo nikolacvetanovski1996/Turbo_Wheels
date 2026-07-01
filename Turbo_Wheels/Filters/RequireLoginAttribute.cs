@@ -16,7 +16,7 @@ namespace Turbo_Wheels.Filters
             }
 
             // If user is not logged in, redirect to Login page
-            if (filterContext.HttpContext.Session["user"] == null)
+            if (filterContext.HttpContext.Session["User"] == null)
             {
                 filterContext.Result = new RedirectToRouteResult(
                     new RouteValueDictionary

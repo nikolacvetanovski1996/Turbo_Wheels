@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<Turbo_Wheels.Models.Reservation>
+@using Turbo_Wheels.Extensions
 
 @{
     ViewBag.Title = "Reservation list";
@@ -26,25 +27,25 @@
         font-size: 0.95rem;
     }
 
-    table.reservations-table th,
-    table.reservations-table td {
-        padding: 0.6rem 0.8rem;
-        vertical-align: middle;
-        background: #fefefe;
-        border-radius: 8px;
-    }
+        table.reservations-table th,
+        table.reservations-table td {
+            padding: 0.6rem 0.8rem;
+            vertical-align: middle;
+            background: #fefefe;
+            border-radius: 8px;
+        }
 
-    table.reservations-table th {
-        background: transparent;
-        font-weight: 700;
-        color: #444;
-        text-align: left;
-        border-bottom: 1px solid #ddd;
-    }
+        table.reservations-table th {
+            background: transparent;
+            font-weight: 700;
+            color: #444;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
 
-    table.reservations-table tbody tr:hover td {
-        background: #f8f9fa;
-    }
+        table.reservations-table tbody tr:hover td {
+            background: #f8f9fa;
+        }
 
     td {
         max-width: 220px;
@@ -62,20 +63,6 @@
         margin: auto;
     }
 
-    .feature-icon {
-        font-size: 1.15rem;
-        width: 26px;
-        text-align: center;
-    }
-
-    .feature-icon.present {
-        color: #28a745;
-    }
-
-    .feature-icon.absent {
-        color: #6c757d;
-    }
-
     .action-buttons {
         white-space: nowrap;
         display: flex;
@@ -90,21 +77,25 @@
         transition: color 0.15s ease-in-out;
     }
 
-    .action-link:hover {
-        color: #000;
-        text-decoration: none;
-    }
+        .action-link:hover {
+            color: #000;
+            text-decoration: none;
+        }
 
-    .action-link.edit:hover {
-        color: #007bff;
-    }
+        .action-link.edit:hover {
+            color: #007bff;
+        }
 
-    .action-link.delete {
-        color: #dc3545;
-    }
+        .action-link.delete {
+            color: #dc3545;
+        }
 
     .th-actions {
         width: 110px;
+    }
+
+    .vehicle-image-cell {
+        text-align: center;
     }
 </style>
 
@@ -125,9 +116,10 @@
                         <th>Return date/time</th>
                         <th>Return place</th>
                         <th>Total price</th>
+                        <th>Payment method</th>
                         <th>Card owner</th>
                         <th>Card No. (last 4)</th>
-                        <th>Expiry (ММ/YY)</th>
+                        <th>Expiry (MM/YY)</th>
                         <th class="th-actions">Actions</th>
                     </tr>
                 </thead>
@@ -137,16 +129,21 @@
                         <tr>
                             <td>@reservation.ReservationID</td>
                             <td>@(reservation.User.FirstName + " " + reservation.User.LastName)</td>
-                            <td>
+                            <td class="vehicle-image-cell">
                                 <img src="@Url.Content("~/images/vehicle_images/" + reservation.Vehicle.ImageURL)" alt="Image of @reservation.Vehicle.Brand @reservation.Vehicle.Model" class="vehicle-image-thumb" />
                             </td>
                             <td>@reservation.PickupDateTime.ToString("g")</td>
-                            <td>@reservation.PickupPlace</td>
+                            <td>@reservation.PickupPlace.GetDisplayName()</td>
                             <td>@reservation.ReturnDateTime.ToString("g")</td>
-                            <td>@reservation.ReturnPlace</td>
+                            <td>@reservation.ReturnPlace.GetDisplayName()</td>
                             <td>@reservation.TotalPrice.ToString("N2") MKD</td>
+                            <td>@reservation.PaymentMethod.GetDisplayName()</td>
                             <td>@reservation.CreditCardOwner</td>
-                            <td>****@reservation.CreditCardLast4</td>
+                            <td>
+                                @(string.IsNullOrEmpty(reservation.CreditCardLast4)
+                                    ? ""
+                                    : "****" + reservation.CreditCardLast4)
+                            </td>
                             <td>@reservation.CreditCardExpiryDate</td>
 
                             <td>

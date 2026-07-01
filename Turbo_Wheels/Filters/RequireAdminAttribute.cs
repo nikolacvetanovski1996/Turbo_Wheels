@@ -15,7 +15,7 @@ namespace Turbo_Wheels.Filters
                 return;
             }
 
-            var user = filterContext.HttpContext.Session["user"] as Models.User;
+            var user = filterContext.HttpContext.Session["User"] as Models.User;
 
             // Redirect to login if not logged in
             if (user == null)

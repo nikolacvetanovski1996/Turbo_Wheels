@@ -209,6 +209,7 @@
     <Compile Include="Controllers\ReservationsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\VehiclesController.cs" />
+    <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Filters\NoCacheAttribute.cs" />
     <Compile Include="Filters\RequireAdminAttribute.cs" />
     <Compile Include="Filters\RequireLoginAttribute.cs" />

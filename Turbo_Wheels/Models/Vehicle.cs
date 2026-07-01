@@ -40,10 +40,12 @@ namespace Turbo_Wheels.Models
         public VehicleType Type { get; set; }
 
         [Required(ErrorMessage = "Brand is required.")]
+        [StringLength(50, ErrorMessage = "Brand cannot exceed 50 characters.")]
         [Display(Name = "Brand")]
         public string Brand { get; set; }
 
         [Required(ErrorMessage = "Model is required.")]
+        [StringLength(50, ErrorMessage = "Model cannot exceed 50 characters.")]
         [Display(Name = "Model")]
         public string Model { get; set; }
 
@@ -78,11 +80,12 @@ namespace Turbo_Wheels.Models
         public bool HasGps { get; set; }
         
         [Required(ErrorMessage = "Vehicle image URL is required.")]
+        [StringLength(255)]
         [Display(Name = "Photo")]
         public string ImageURL { get; set; }
 
         [NotMapped]
-        [Display(Name = "Vehicle Image")]
+        [Display(Name = "Vehicle image")]
         public HttpPostedFileBase ImageFile { get; set; }
 
         public virtual List<Reservation> Reservations { get; set; } = new List<Reservation>();
