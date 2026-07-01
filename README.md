@@ -1,6 +1,6 @@
 # Turbo Wheels
 
-A straightforward car rental management web app built with ASP.NET MVC and Entity Framework.
+A car rental management web application built with ASP.NET MVC 5 and Entity Framework 6, featuring authentication, multi-step reservations, payment options, and an administrative dashboard.
 
 > **Note:** This project started as my university thesis, then I significantly improved it until it became portfolio-quality and a practical app for managing car rentals.
 
@@ -8,17 +8,23 @@ A straightforward car rental management web app built with ASP.NET MVC and Entit
 
 - User registration and login system
 - Vehicle listings with availability filtering
-- Multi-step booking process with validation
-- Admin controls for managing vehicles and users (full CRUD)
-- Admin controls for managing reservations (view and delete only)
-- Session and cookie based user management
+- Multi-step reservation process with client-side and server-side validation
+- Credit card and pay-on-pickup payment options
+- Reservation conflict detection to prevent overlapping bookings
+- Admin controls for managing vehicles and users
+- Admin controls for viewing and deleting reservations
+- Session- and cookie-based authentication
+- Reservation state persistence across reservation steps
 
 ## Technologies
 
 - ASP.NET MVC 5
 - Entity Framework 6 (Code First)
 - SQL Server LocalDB
-- Bootstrap 5 for responsive, mobile-friendly UI
+- Bootstrap 5
+- jQuery
+- jQuery UI Datepicker
+- Font Awesome
 
 ## Setup Instructions
 
@@ -27,7 +33,7 @@ A straightforward car rental management web app built with ASP.NET MVC and Entit
 3. In Visual Studio, **perform a Clean Solution** (Build > Clean Solution). This step resolves any package or compiler file issues without manual NuGet restore.  
 4. Build and run the project in Visual Studio (2019 or later).
 5. The database will be created automatically on first run (if it doesn't already exist).
-6. Access the app via `http://localhost:<port>/`.
+6. Access the application via `http://localhost:<port>/`.
 
 ## Troubleshooting
 
@@ -46,8 +52,20 @@ If the problem persists after cleaning and rebuilding, double-check that all NuG
 
 ## Notes
 
-- Basic error handling in place (default MVC error pages).
-- Seed admin user added on first run:
+- Custom 403, 404, and 500 error pages.
+- Passwords are securely hashed before storage.
+- A default administrator account is seeded on first run if no administrator exists:
   - **Username:** admin
   - **Password:** admin123
-- Uses cookie/session for simple authentication. 
+- Uses cookie- and session-based authentication.
+
+## Admin Demo
+
+The administrative interface is intentionally not publicly accessible.
+
+For serious evaluation, temporary administrator access can be provided by:
+
+- restoring a database backup to a sandbox environment, or
+- providing a database backup that can be run locally.
+
+If you would like to evaluate the administrative functionality, feel free to contact me. Temporary access can be provided upon request.
