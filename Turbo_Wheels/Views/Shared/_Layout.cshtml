@@ -18,79 +18,85 @@
 
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>@ViewBag.Title</title>
-        @Styles.Render("~/Content/css")
-        @Scripts.Render("~/bundles/modernizr")
-        @Scripts.Render("~/bundles/jquery")
-        @Scripts.Render("~/bundles/bootstrap")
-        @Scripts.Render("~/bundles/jqueryui")
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/jqueryui")
 
-        <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+    <link rel="icon" type="image/x-icon" href="@Url.Content("~/favicon.ico  ")">
 
-        <style>
-            .navbar-dark .navbar-brand {
-                color: rgba(255, 255, 255, 0.55);
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+
+    <style>
+        .navbar-dark .navbar-brand {
+            color: rgba(255, 255, 255, 0.55);
+        }
+
+            .navbar-dark .navbar-brand:hover {
+                color: rgba(255, 255, 255, 0.75);
             }
 
-                .navbar-dark .navbar-brand:hover {
-                    color: rgba(255, 255, 255, 0.75);
+        @@media (min-width: 577px) {
+            .nav-item-logout-mobile {
+                display: none;
+            }
+        }
+
+        @@media (max-width: 576px) {
+            .navbar-nav .nav-item {
+                margin: 0 auto;
+            }
+
+            .footer-links-column {
+                margin-bottom: 25px;
+            }
+
+                .footer-links-column:last-child {
+                    margin-bottom: 0;
                 }
+        }
 
-            @@media (min-width: 577px) {
-                .nav-item-logout-mobile {
-                    display: none;
-                }
-            }
+        iframe {
+            width: 100%;
+            height: 230px;
+            border: 0;
+        }
 
-            @@media (max-width: 576px) {
-                .navbar-nav .nav-item {
-                    margin: 0 auto;
-                }
+        .pr-10 {
+            padding-right: 10px;
+        }
 
-                .footer-links-column {
-                    margin-bottom: 25px;
-                }
+        .section-title {
+            font-size: 24px;
+        }
 
-                    .footer-links-column:last-child {
-                        margin-bottom: 0;
-                    }
-            }
+        .full-width {
+            width: 100%;
+        }
 
-            iframe {
-                width: 100%;
-                height: 230px;
-                border: 0;
-            }
+        /* Remove bullets from validation summary error messages */
+        .validation-summary-errors ul,
+        .validation-summary-valid ul {
+            list-style: none;
+            padding-left: 0;
+            margin-bottom: 0;
+        }
 
-            .pr-10 {
-                padding-right: 10px;
-            }
+        .validation-summary-errors li,
+        .validation-summary-valid li {
+            margin-bottom: .25rem;
+        }
 
-            .section-title {
-                font-size: 24px;
-            }
-
-            .full-width {
-                width: 100%;
-            }
-
-            /* Remove bullets from validation summary error messages */
-            .validation-summary-errors ul,
-            .validation-summary-valid ul {
-                list-style: none;
-                padding-left: 0;
-                margin-bottom: 0;
-            }
-
-            .validation-summary-errors li,
-            .validation-summary-valid li {
-                margin-bottom: .25rem;
-            }
-        </style>
-    </head>
+        .logo {
+            height: 40px;
+        }
+    </style>
+</head>
 
     <body class="bg-light">
 
@@ -99,7 +105,7 @@
 
                 <!-- BRAND (hidden on mobile, shown inside menu instead) -->
                 <a class="navbar-brand d-none d-sm-flex align-items-center" href="~/Home/Index">
-                    <img src="~/images/logo.png" class="me-2" />
+                    <img src="~/images/logo.svg" class="me-2 logo" />
                     TURBO WHEELS &reg;
                 </a>
 
