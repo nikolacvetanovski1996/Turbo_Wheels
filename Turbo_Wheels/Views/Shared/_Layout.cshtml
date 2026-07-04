@@ -41,13 +41,13 @@
                 color: rgba(255, 255, 255, 0.75);
             }
 
-        @@media (min-width: 577px) {
+        @@media (min-width: 768px) {
             .nav-item-logout-mobile {
                 display: none;
             }
         }
 
-        @@media (max-width: 576px) {
+        @@media (max-width: 767px) {
             .navbar-nav .nav-item {
                 margin: 0 auto;
             }
@@ -104,7 +104,7 @@
             <div class="container-fluid">
 
                 <!-- BRAND (hidden on mobile, shown inside menu instead) -->
-                <a class="navbar-brand d-none d-sm-flex align-items-center" href="~/Home/Index">
+                <a class="navbar-brand d-none d-md-flex align-items-center" href="~/Home/Index">
                     <img src="~/images/logo.svg" class="me-2 logo" />
                     TURBO WHEELS &reg;
                 </a>
@@ -125,7 +125,7 @@
                     <ul class="navbar-nav">
 
                         <!-- BRAND INSIDE MENU (mobile only) -->
-                        <li class="nav-item d-sm-none mt-2">
+                        <li class="nav-item d-md-none mt-2">
                             <a class="nav-link fw-bold" href="~/Home/Index">
                                 <img src="~/images/logo.svg" class="me-2 logo" />
                                 TURBO WHEELS &reg;
@@ -151,7 +151,7 @@
                     </ul>
 
                     <!-- USER MENU (desktop only) -->
-                    <ul class="navbar-nav ms-auto d-none d-sm-flex">
+                    <ul class="navbar-nav ms-auto d-none d-md-flex">
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#"
                                id="userDropdown"
