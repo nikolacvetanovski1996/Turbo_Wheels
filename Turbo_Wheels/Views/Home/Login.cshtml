@@ -7,6 +7,7 @@
 
 <style>
     .login-image {
+        width: 100%;
         height: 100%;
         object-fit: cover;
     }
@@ -14,6 +15,7 @@
     .login-card {
         max-width: 900px;
         width: 100%;
+        overflow: hidden;
     }
 
     .validation-summary-errors ul {
@@ -38,7 +40,7 @@
     });
 </script>
 
-<div class="d-flex justify-content-center align-items-center vh-100 bg-light px-3">
+<div class="d-flex justify-content-center align-items-center min-vh-100 bg-light px-3 py-4">
     <div class="d-flex bg-white rounded shadow login-card">
         <div class="p-4 w-100">
             <div class="container">
