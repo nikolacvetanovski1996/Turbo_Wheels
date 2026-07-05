@@ -89,6 +89,17 @@ namespace Turbo_Wheels.Controllers
             if (existingUser == null)
                 return HttpNotFound();
 
+            // Prevent self-demotion from admin to non-admin
+            var currentUser = (User)Session["User"];
+            if (currentUser != null &&
+                currentUser.UserID == existingUser.UserID &&
+                existingUser.IsAdmin &&
+                !user.IsAdmin)
+            {
+                return RedirectToAction("Forbidden", "Error");
+                
+            }
+
             // Update fields (explicitly)
             existingUser.IsAdmin = user.IsAdmin;
             existingUser.FirstName = user.FirstName;

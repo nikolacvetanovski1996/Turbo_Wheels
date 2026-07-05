@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "User list";
+
     var currentUser = Session["User"] as Turbo_Wheels.Models.User;
 }
 
@@ -103,6 +104,10 @@
     .th-actions {
         width: 110px;
     }
+
+    .cursor-not-allowed {
+        cursor: not-allowed;
+    }
 </style>
 
 <div class="users-table-wrapper">
@@ -167,7 +172,7 @@
                                     }
                                     else
                                     {
-                                        <span class="action-link text-muted" title="You cannot delete your own account" style="cursor:not-allowed;">
+                                        <span class="action-link text-muted cursor-not-allowed" title="You cannot delete your own account">
                                             <i class="fa fa-trash"></i>
                                         </span>
                                     }

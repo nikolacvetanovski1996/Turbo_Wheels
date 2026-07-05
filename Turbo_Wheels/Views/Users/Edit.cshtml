@@ -2,6 +2,9 @@
 
 @{
     ViewBag.Title = "Edit user";
+
+    var currentUser = Session["User"] as Turbo_Wheels.Models.User;
+    bool editingOwnAccount = currentUser != null && currentUser.UserID == Model.UserID;
 }
 
 <style>
@@ -12,6 +15,14 @@
         border-radius: 12px;
         box-shadow: 0 6px 18px rgba(21, 24, 30, 0.08);
         padding: 1.5rem;
+    }
+
+    .cursor-not-allowed {
+        cursor: not-allowed;
+    }
+
+    .admin-warning {
+        max-width: 280px;
     }
 </style>
 
@@ -40,10 +51,35 @@
                 </div>
 
                 <div class="mb-3">
-                    <div class="form-check">
-                        @Html.CheckBoxFor(model => model.IsAdmin, new { @class = "form-check-input" })
-                        @Html.LabelFor(m => m.IsAdmin, new { @class = "form-check-label" })
-                    </div>
+                    @if (editingOwnAccount && Model.IsAdmin)
+                    {
+                        <div class="form-check cursor-not-allowed">
+                            <input type="checkbox"
+                                   name="IsAdmin"
+                                   id="IsAdmin"
+                                   class="form-check-input"
+                                   checked
+                                   disabled />
+
+                            <label for="IsAdmin" class="form-check-label">
+                                Admin
+                            </label>
+
+                            <input type="hidden"
+                                   name="IsAdmin"
+                                   value="true" />
+                        </div>
+                        <div class="alert alert-warning admin-warning">
+                            Administrator privileges cannot be removed from your own account.
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="form-check">
+                            @Html.CheckBoxFor(model => model.IsAdmin, new { @class = "form-check-input" })
+                            @Html.LabelFor(model => model.IsAdmin, new { @class = "form-check-label" })
+                        </div>
+                    }
                 </div>
 
                 <div class="mb-3">
