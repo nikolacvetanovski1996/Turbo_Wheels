@@ -59,7 +59,7 @@ namespace Turbo_Wheels.Models
         [Display(Name = "Price per day in MKD denars")]
         public int PricePerDay { get; set; }
 
-        [Range(1, 10, ErrorMessage = "Number of doors must be between 1 and 10.")]
+        [Range(0, 10, ErrorMessage = "Number of doors must be between 0 and 10.")]
         [Display(Name = "Number of doors")]
         public int Doors { get; set; }
 
