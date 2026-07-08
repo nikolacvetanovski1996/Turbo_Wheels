@@ -348,7 +348,7 @@
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Home\Step2.cshtml" />
     <Content Include="Views\Home\Final.cshtml" />
-    <AdditionalFiles Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Shared\Forbidden.cshtml" />
     <Content Include="Views\Home\Register.cshtml" />
     <Content Include="Views\Vehicles\Edit.cshtml" />
