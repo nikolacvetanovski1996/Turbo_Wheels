@@ -10,7 +10,7 @@
         background-image: url("../images/jumbotron.jpg");
         background-size: cover;
         background-position: center bottom;
-        padding: 250px 0;
+        padding: 150px 0;
         text-align: center;
     }
 
@@ -19,6 +19,32 @@
         font-size: 28px;
         font-weight: bold;
         margin-bottom: 20px;
+    }
+
+    .hero-section-title {
+        color: white;
+        font-size: 22px;
+        font-weight: 700;
+        text-shadow: 0 1px 3px rgba(0,0,0,.45);
+        margin: 18px 0 8px;
+    }
+
+    .hero-section-title i {
+        margin-right: 10px;
+    }
+
+    @@media (min-width:992px) {
+        .hero-section-desktop {
+            width: 700px;
+            text-align: left;
+        }
+    }
+
+    @@media (max-width:991px) {
+        .hero-section-desktop {
+            width: 100%;
+            text-align: center;
+        }
     }
 
     .hero select,
@@ -151,6 +177,12 @@
                 This is the right place to be! Just fill the form below!
             </div>
 
+            <div class="hero-row d-flex justify-content-center">
+                <div class="hero-section-title hero-section-desktop">
+                    <i class="fa fa-map-marker"></i> Pickup
+                </div>
+            </div>
+
             <div class="hero-row d-flex justify-content-center flex-wrap">
                 @Html.EnumDropDownListFor(
                     m => m.PickupPlace,
@@ -183,6 +215,12 @@
                         </option>
                     }
                 </select>
+            </div>
+
+            <div class="hero-row d-flex justify-content-center">
+                <div class="hero-section-title hero-section-desktop">
+                    <i class="fa fa-flag-checkered"></i> Return
+                </div>
             </div>
 
             <div class="hero-row d-flex justify-content-center flex-wrap">
